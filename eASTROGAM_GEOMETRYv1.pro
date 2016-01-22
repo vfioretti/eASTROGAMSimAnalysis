@@ -45,7 +45,7 @@ Al_t = tracker_pitch - Si_t
 dist_tray = 0.   ;mm
 
 print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
-print, '%                ASTROGAM V3.0                    %
+print, '%                eASTROGAM V1.0                    %
 print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
 print, '% - Number of trays:', N_tray 
 print, '% - Number of strips:', N_strip
