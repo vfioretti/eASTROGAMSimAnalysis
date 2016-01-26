@@ -1,0 +1,29 @@
+; eASTROGAM_ANALYSISv1_file_remote.pro - Description
+; ---------------------------------------------------------------------------------
+; Processing the THELSIM eASTROGAM simulation:
+; - Tracker
+; - AC
+; - Calorimeter
+; ---------------------------------------------------------------------------------
+; Output:
+; - all files are created in a self-descripted subdirectory of the current directory. If the directory is not present it is created by the IDL script.
+; ---------> FITS files
+; - G4.RAW.eASTROGAM<version>.<phys>List.<sim_type>.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.<file>.fits
+; - L0.5.eASTROGAM<version>.<phys>List.<sim_type>.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.<file>.fits
+; - KALMAN.eASTROGAM<version>.<phys>List.<sim_type>.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.<file>.fits
+; - G4.AC.eASTROGAM<version>.<phys>List.<sim_type>.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.<file>.fits
+; - G4.CAL.eASTROGAM<version>.<phys>List.<sim_type>.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.<file>.fits 
+; ----------------------------------------------------------------------------------
+; copyright            : (C) 2016 Valentina Fioretti
+; email                : fioretti@iasfbo.inaf.it
+; ----------------------------------------------
+; Usage:
+; eASTROGAM_ANALYSISv1_file
+; ---------------------------------------------------------------------------------
+; Notes:
+; Each THELSIM FITS files individually processed
+
+
+
+.compile eASTROGAM_ANALYSISv1_file_remote
+eASTROGAM_ANALYSISv1_file_remote, "V1.0", 201, 1, 400, 10000, "ph", 100, 80, 150, "UNI", 30.0, 225.0, 0, 1, 1, 1, 0, 0, 15.0
