@@ -44,7 +44,7 @@ pro eASTROGAM_ANALYSISv1_file_remote, $
     cal_flag, $             ; % - Is Cal present? [0 = false, 1 = true]:
     ac_flag, $              ; % - Is AC present? [0 = false, 1 = true]:
     passive_flag, $         ; % - Is Passive present? [0 = false, 1 = true]:
-    energy_thresh, $        ; % - Enter energy threshold [keV]:
+    energy_thresh        ; % - Enter energy threshold [keV]:
 
 
 if (astrogam_version EQ 'V1.0') then begin

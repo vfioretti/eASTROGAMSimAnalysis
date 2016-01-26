@@ -55,7 +55,7 @@ pro eASTROGAM_ANALYSISv1_all_remote, $
   cal_flag, $             ; % - Is Cal present? [0 = false, 1 = true]:
   ac_flag, $              ; % - Is AC present? [0 = false, 1 = true]:
   passive_flag, $         ; % - Is Passive present? [0 = false, 1 = true]:
-  energy_thresh, $        ; % - Enter energy threshold [keV]:
+  energy_thresh        ; % - Enter energy threshold [keV]:
 
 
 
@@ -316,7 +316,6 @@ for ifile=0, n_files-1 do begin
     
     filenamedat_aa_strip = filepath+sim_tag+'_STRIP_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+strtrim(string(ifile),1)+'.dat'
     readcol, filenamedat_aa_strip, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, format='(l,l,l,l,l,f,l,l,f,f)'
-    print, filenamedat_aa_strip
     
     aa_strip_event_id = [aa_strip_event_id, c1]
     aa_strip_theta_in = [aa_strip_theta_in, c2]
