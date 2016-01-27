@@ -22,10 +22,15 @@ print, 'Configuration files path: ', outdir
 CheckOutDir = DIR_EXIST( outdir)
 if (CheckOutDir EQ 0) then spawn,'mkdir -p ./conf'
 
-theta_deg = 30.0d
-phi_deg = 225.d
-theta = theta_deg*(!PI/180.d)
-phi = phi_deg*(!PI/180.d)
+theta_deg_point = 30.0d
+phi_deg_point = 225.d
+theta_point = theta_deg_point*(!PI/180.d)
+phi_point = phi_deg_point*(!PI/180.d)
+
+theta_deg_plane = 30.0d
+phi_deg_plane = 0.d
+theta_plane = theta_deg_plane*(!PI/180.d)
+phi_plane = phi_deg_plane*(!PI/180.d)
 
 ; source height
 h_s = 150.d  ;cm
@@ -212,8 +217,8 @@ print, '% - ARCH.YSTRIP.TOP.ASTROGAMV3.0.TRACKER.FITS'
 
 print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
 print, '% GPS Set-up for the point source position:'
-print, '% - theta [deg.]:', theta_deg
-print, '% - phi [deg.]:', phi_deg
+print, '% - theta [deg.]:', theta_deg_point
+print, '% - phi [deg.]:', phi_deg_point
 print, '% - source height [cm]:', h_s
 print, '% ----------------------------------------------'
 
@@ -224,23 +229,54 @@ h_t = z_end/10. ; cm
 h_r = h_s - h_t
 
 ; source distance from (0,0)
-radius = h_r*tan(theta)
-x_s = ((cos(phi))*radius)
-y_s = ((sin(phi))*radius)
+radius = h_r*tan(theta_point)
+x_s = ((cos(phi_point))*radius)
+y_s = ((sin(phi_point))*radius)
 
 
-P_x = -sin(theta)*cos(phi)
-P_y = -sin(theta)*sin(phi)
-P_z = -cos(theta)
+P_x = -sin(theta_point)*cos(phi_point)
+P_y = -sin(theta_point)*sin(phi_point)
+P_z = -cos(theta_point)
 
-print, '% Source position:'
+print, '% Point source position:'
 print, '% - X [cm]:', x_s
 print, '% - Y [cm]:', y_s
 print, '% - Z [cm]:', h_s
-print, '% - Source direction:'
+print, '% Point Source direction:'
 print, '% - P_x:', P_x
 print, '% - P_y:', P_y
 print, '% - P_z:', P_z
 print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+
+
+; Plane center distance from (0,0)
+radius_plane = h_r*tan(theta_plane)
+
+; Plane center
+c_x_plane = ((cos(phi_plane))*radius_plane)
+c_y_plane = ((sin(phi_plane))*radius_plane)
+halfx_plane = Tray_side/20.
+halfy_plane = Tray_side/20.
+
+; Plane Momenta
+
+P_x = -sin(theta_plane)*cos(phi_plane)
+P_y = -sin(theta_plane)*sin(phi_plane)
+P_z = -cos(theta_plane)
+
+print, '% Plane (square) center position:'
+print, '% - X [cm]:', c_x_plane
+print, '% - Y [cm]:', c_y_plane
+print, '% - Z [cm]:', h_s
+print, '% Plane (square) side position:'
+print, '% - Half X [cm]:', halfx_plane
+print, '% - Half Y [cm]:', halfy_plane
+print, '% Plane Source direction:'
+print, '% - P_x:', P_x
+print, '% - P_y:', P_y
+print, '% - P_z:', P_z
+print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+
+
 
 end
