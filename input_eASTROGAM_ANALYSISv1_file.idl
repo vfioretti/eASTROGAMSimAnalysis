@@ -18,12 +18,34 @@
 ; email                : fioretti@iasfbo.inaf.it
 ; ----------------------------------------------
 ; Usage:
-; eASTROGAM_ANALYSISv1_file
+; eASTROGAM_ANALYSISv1_file_remote
+;
+; eASTROGAM_ANALYSISv1_file_remote, $
+;    astrogam_version, $     ; % - Enter eASTROGAM release (e.g. V1.0):
+;    bogemms_tag, $          ; % - Enter BoGEMMS release (e.g. 201):
+;    sim_type, $             ; % - Enter simulation type [0 = Mono, 1 = Range, 2 = Chen, 3: Vela, 4: Crab, 4: G400]:
+;    py_list, $              ; % - Enter the Physics List [0 = QGSP_BERT_EMV, 100 = ARGO, 300 = FERMI, 400 = ASTROMEV]:
+;    N_in, $                 ; % - Enter the number of emitted particles:
+;    part_type, $            ; % - Enter the particle type [ph = photons, mu = muons, g = geantino, p = proton, el = electron]:
+;    n_fits, $               ; % - Enter number of FITS files:
+;    ene_range, $            ; % - Enter energy distribution [0 = MONO, 1 = POW, 2 = EXP, 3 = LIN]:
+;    ene_min, $              ; % - Enter miminum energy [MeV]:
+;    ene_max, $              ; % - Enter maximum energy [MeV]:
+;    ang_type, $             ; % - Enter the angular distribution [e.g. UNI, ISO]:
+;    theta_type, $           ; % - Enter theta:
+;    phi_type, $             ; % - Enter phi:
+;    source_g, $             ; % - Enter source geometry [0 = Point, 1 = Plane]:
+;    isStrip, $              ; % - Strip/Pixels activated?:
+;    repli, $                ; % - Strips/Pixels replicated?:
+;    cal_flag, $             ; % - Is Cal present? [0 = false, 1 = true]:
+;    ac_flag, $              ; % - Is AC present? [0 = false, 1 = true]:
+;    passive_flag, $         ; % - Is Passive present? [0 = false, 1 = true]:
+;    energy_thresh        ; % - Enter energy threshold [keV]:
+;
 ; ---------------------------------------------------------------------------------
 ; Notes:
 ; Each THELSIM FITS files individually processed
 
 
-
 .compile eASTROGAM_ANALYSISv1_file_remote
-eASTROGAM_ANALYSISv1_file_remote, "V1.0", 201, 1, 400, 10000, "ph", 100, 80, 150, "UNI", 30.0, 225.0, 0, 1, 1, 1, 0, 0, 15.0
+eASTROGAM_ANALYSISv1_file_remote, 'V1.0', '201', 1, 400, 100000, "ph", 630, 1, 7.5, 15, "UNI", 30, 225, 0, 1, 1, 1, 0, 0, 15
