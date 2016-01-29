@@ -44,7 +44,7 @@ pro eASTROGAM_ANALYSISv1_file_remote, $
     cal_flag, $             ; % - Is Cal present? [0 = false, 1 = true]:
     ac_flag, $              ; % - Is AC present? [0 = false, 1 = true]:
     passive_flag, $         ; % - Is Passive present? [0 = false, 1 = true]:
-    energy_thresh        ; % - Enter energy threshold [keV]:
+    energy_thresh           ; % - Enter energy threshold [keV]:
 
 
 if (astrogam_version EQ 'V1.0') then begin
@@ -58,18 +58,127 @@ if (ene_range EQ 0) then begin
   ene_type = ene_min
   if (ene_type GE 1) then ene_type = strtrim(string(long(ene_type)),1)
   if (ene_type LT 1) then ene_type = STRMID(STRTRIM(STRING(ene_type),1),0,5)
+  if (size(ene_min, /TYPE) NE 2) then begin
+      nstring = strlen(ene_type)
+      ene_type_notzero = ene_type
+      flag = 1 
+      for ichar_reverse=0, nstring-1 do begin
+        ichar = (nstring-1) - ichar_reverse
+        if ((strmid(ene_type, ichar, 1) EQ '0') or (strmid(ene_type, ichar, 1) EQ '.')) then begin
+            if (flag EQ 1) then ene_type_notzero = STRMID(ene_type_notzero, 0, ichar)
+        endif else begin
+            flag = 0
+        endelse
+      endfor
+      ene_type = ene_type_notzero
+  endif
 endif
 if (ene_range EQ 1) then begin
     ene_dis = 'POW'
-    ene_type = strtrim(string(ene_min),1)+'.'+strtrim(string(ene_max),1)
+    
+    ene_min_string = strtrim(string(ene_min),1)
+    if (size(ene_min, /TYPE) NE 2) then begin
+      nstring = strlen(ene_min_string)
+      ene_min_string_notzero = ene_min_string
+      flag = 1 
+      for ichar_reverse=0, nstring-1 do begin
+        ichar = (nstring-1) - ichar_reverse
+        if ((strmid(ene_min_string, ichar, 1) EQ '0') or (strmid(ene_min_string, ichar, 1) EQ '.')) then begin
+            if (flag EQ 1) then ene_min_string_notzero = STRMID(ene_min_string_notzero, 0, ichar)
+        endif else begin
+            flag = 0
+        endelse
+      endfor
+      ene_min_string = ene_min_string_notzero
+    endif
+    
+    ene_max_string = strtrim(string(ene_max),1)
+    if (size(ene_max, /TYPE) NE 2) then begin
+      nstring = strlen(ene_max_string)
+      ene_max_string_notzero = ene_max_string
+      flag = 1
+      for ichar_reverse=0, nstring-1 do begin
+        ichar = (nstring-1) - ichar_reverse
+        if ((strmid(ene_max_string, ichar, 1) EQ '0') or (strmid(ene_max_string, ichar, 1) EQ '.')) then begin
+          if (flag EQ 1) then ene_max_string_notzero = STRMID(ene_max_string_notzero, 0, ichar)
+        endif else begin
+          flag = 0
+        endelse
+      endfor
+      ene_max_string = ene_max_string_notzero
+    endif
+    
+    ene_type = ene_min_string+'.'+ene_max_string
 endif
 if (ene_range EQ 2) then begin
   ene_dis = 'EXP'
-  ene_type = strtrim(string(ene_min),1)+'.'+strtrim(string(ene_max),1)
+    ene_min_string = strtrim(string(ene_min),1)
+    if (size(ene_min_string, /TYPE) NE 2) then begin
+      nstring = strlen(ene_min_string)
+      ene_min_string_notzero = ene_min_string
+      flag = 1 
+      for ichar_reverse=0, nstring-1 do begin
+        ichar = (nstring-1) - ichar_reverse
+        if ((strmid(ene_min_string, ichar, 1) EQ '0') or (strmid(ene_min_string, ichar, 1) EQ '.')) then begin
+            if (flag EQ 1) then ene_min_string_notzero = STRMID(ene_min_string_notzero, 0, ichar)
+        endif else begin
+            flag = 0
+        endelse
+      endfor
+      ene_min_string = ene_min_string_notzero
+    endif
+    
+    ene_max_string = strtrim(string(ene_max),1)
+    if (size(ene_max_string, /TYPE) NE 2) then begin
+      nstring = strlen(ene_max_string)
+      ene_max_string_notzero = ene_max_string
+      flag = 1
+      for ichar_reverse=0, nstring-1 do begin
+        ichar = (nstring-1) - ichar_reverse
+        if ((strmid(ene_max_string, ichar, 1) EQ '0') or (strmid(ene_max_string, ichar, 1) EQ '.')) then begin
+          if (flag EQ 1) then ene_max_string_notzero = STRMID(ene_max_string_notzero, 0, ichar)
+        endif else begin
+          flag = 0
+        endelse
+      endfor
+      ene_max_string = ene_max_string_notzero
+    endif
+  ene_type = ene_min_string+'.'+ene_max_string
 endif
 if (ene_range EQ 3) then begin
   ene_dis = 'LIN'
-  ene_type = strtrim(string(ene_min),1)+'.'+strtrim(string(ene_max),1)
+    ene_min_string = strtrim(string(ene_min),1)
+    if (size(ene_min_string, /TYPE) NE 2) then begin
+      nstring = strlen(ene_min_string)
+      ene_min_string_notzero = ene_min_string
+      flag = 1 
+      for ichar_reverse=0, nstring-1 do begin
+        ichar = (nstring-1) - ichar_reverse
+        if ((strmid(ene_min_string, ichar, 1) EQ '0') or (strmid(ene_min_string, ichar, 1) EQ '.')) then begin
+            if (flag EQ 1) then ene_min_string_notzero = STRMID(ene_min_string_notzero, 0, ichar)
+        endif else begin
+            flag = 0
+        endelse
+      endfor
+      ene_min_string = ene_min_string_notzero
+    endif
+    
+    ene_max_string = strtrim(string(ene_max),1)
+    if (size(ene_max_string, /TYPE) NE 2) then begin
+      nstring = strlen(ene_max_string)
+      ene_max_string_notzero = ene_max_string
+      flag = 1
+      for ichar_reverse=0, nstring-1 do begin
+        ichar = (nstring-1) - ichar_reverse
+        if ((strmid(ene_max_string, ichar, 1) EQ '0') or (strmid(ene_max_string, ichar, 1) EQ '.')) then begin
+          if (flag EQ 1) then ene_max_string_notzero = STRMID(ene_max_string_notzero, 0, ichar)
+        endif else begin
+          flag = 0
+        endelse
+      endfor
+      ene_max_string = ene_max_string_notzero
+    endif
+  ene_type = ene_min_string+'.'+ene_max_string
 endif
 
 if (py_list EQ 0) then begin
@@ -167,6 +276,7 @@ if (astrogam_version EQ 'V1.0') then begin
     ; accoppiamento capacitivo
     ;acap = [0.035, 0.045, 0.095, 0.115, 0.38, 1., 0.38, 0.115, 0.095, 0.045, 0.035]  
     ; tracker energy threshold (0.25 MIP)
+    print, energy_thresh
     E_th = float(energy_thresh)  ; keV 
     
     E_th_cal = 30. ; keV
