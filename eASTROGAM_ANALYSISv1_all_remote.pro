@@ -89,7 +89,7 @@ if (ene_range EQ 1) then begin
     ene_dis = 'POW'
     
     ene_min_string = strtrim(string(ene_min),1)
-    if (size(ene_min_string, /TYPE) NE 2) then begin
+    if (size(ene_min, /TYPE) NE 2) then begin
       nstring = strlen(ene_min_string)
       ene_min_string_notzero = ene_min_string
       flag = 1 
@@ -105,7 +105,7 @@ if (ene_range EQ 1) then begin
     endif
     
     ene_max_string = strtrim(string(ene_max),1)
-    if (size(ene_max_string, /TYPE) NE 2) then begin
+    if (size(ene_max, /TYPE) NE 2) then begin
       nstring = strlen(ene_max_string)
       ene_max_string_notzero = ene_max_string
       flag = 1
@@ -125,7 +125,7 @@ endif
 if (ene_range EQ 2) then begin
   ene_dis = 'EXP'
     ene_min_string = strtrim(string(ene_min),1)
-    if (size(ene_min_string, /TYPE) NE 2) then begin
+    if (size(ene_min, /TYPE) NE 2) then begin
       nstring = strlen(ene_min_string)
       ene_min_string_notzero = ene_min_string
       flag = 1 
@@ -141,7 +141,7 @@ if (ene_range EQ 2) then begin
     endif
     
     ene_max_string = strtrim(string(ene_max),1)
-    if (size(ene_max_string, /TYPE) NE 2) then begin
+    if (size(ene_max, /TYPE) NE 2) then begin
       nstring = strlen(ene_max_string)
       ene_max_string_notzero = ene_max_string
       flag = 1
