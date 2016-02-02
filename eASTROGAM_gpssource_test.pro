@@ -447,7 +447,7 @@ endif
 oplot, Earr_in[1:*], rate_in_model, thick = 3, linestyle=2
 
 lines = [0, 2]
-CGlegend,['eASTROGAMSim', 'Model'], $
+al_legend,['eASTROGAMSim', 'Model'], $
 spacing=1.4, thick=2,/top, textcolor=[4,0], linestyle = lines, /right,box=0, outline_color=0, charsize=1., charthick=2.
 
 
