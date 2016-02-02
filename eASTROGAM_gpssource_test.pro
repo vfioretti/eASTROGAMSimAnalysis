@@ -341,12 +341,8 @@ endfor
 ene_in = ene_in[1:*]
 ene_in = ene_in/1000.  ; from keV to MeV
 
+
 if (sim_type EQ 1) then begin
- Emin_sim = 100.
- Emax_sim = 141.
- deltaE_sim = Emax_sim - Emin_sim
-endif
-if ((sim_type EQ 2) OR (sim_type EQ 3)) then begin
  Emin_sim = ene_min
  Emax_sim = ene_max
  deltaE_sim = Emax_sim - Emin_sim
@@ -365,8 +361,9 @@ TVLCT, 255 * RED, 255 * GREEN, 255 * BLUE
 
 xt = 'Energy [MeV]' 
 yt = 'phot. MeV!A-1!N' 
-xr = [Emin_sim - 10, Emax_sim + 10]
-yr = [100, 5000]
+;xr = [Emin_sim - 10, Emax_sim + 10]
+yr = [0.001, 5000]
+xr = [10, 100]
 
 plot, /ylog,/xlog,[1], xtitle=xt, ytitle=yt, xrange=xr, yrange=yr, xstyle=1, ystyle=1,xmargin=[10,3], $
     xcharsize=1, ycharsize=1,charsize = 1, charthick=1.5,$
@@ -406,16 +403,9 @@ oplot, [Earr_in_plot[0], Earr_in_plot[0]], [yr[0], rate_in[0]],thick = 5, color=
 oplot, [Earr_in_plot[n_elements(Earr_in_plot)-1], Earr_in_plot[n_elements(Earr_in_plot)-1]], $
 [yr[0], rate_in[n_elements(rate_in)-1]],thick = 5, color=4
 
+
 if (sim_type EQ 1) then begin
-  N_in_model = dblarr(n_elements(N_in_sim))
-  rate_in_model = dblarr(n_elements(N_in_sim))
-  for i=0l, n_elements(N_in_sim)-1 do begin
-    N_in_model[i] = N_in*(bin_histo(i)/deltaE_sim)
-    rate_in_model[i] = N_in_model[i]/(bin_histo(i))
-  endfor
-endif
-if (sim_type EQ 2) then begin
-  ph_index = 1.66
+  ph_index = 2
   N_in_model = dblarr(n_elements(N_in_sim))
   rate_in_model = dblarr(n_elements(N_in_sim))
   intE_tot = ((Emax_sim^(1 - ph_index))/(1 - ph_index)) - ((Emin_sim^(1 - ph_index))/(1 - ph_index))
@@ -429,21 +419,7 @@ if (sim_type EQ 2) then begin
     rate_in_model[i] = N_in_model[i]/(bin_histo(i))
   endfor
 endif
-if (sim_type EQ 3) then begin
-  ph_index = 2.1
-  N_in_model = dblarr(n_elements(N_in_sim))
-  rate_in_model = dblarr(n_elements(N_in_sim))
-  intE_tot = ((Emax_sim^(1 - ph_index))/(1 - ph_index)) - ((Emin_sim^(1 - ph_index))/(1 - ph_index))
-  norm = N_in/intE_tot
-  for i=0l, n_elements(N_in_sim)-1 do begin
-    E_start = Earr_in[i]
-    E_end = Earr_in[i+1]
-    intE_delta = ((E_end^(1 - ph_index))/(1 - ph_index)) - ((E_start^(1 - ph_index))/(1 - ph_index))
-    prop = intE_delta/intE_tot
-    N_in_model[i] = N_in*prop
-    rate_in_model[i] = N_in_model[i]/(bin_histo(i))
-  endfor
-endif
+
 oplot, Earr_in[1:*], rate_in_model, thick = 3, linestyle=2
 
 lines = [0, 2]
