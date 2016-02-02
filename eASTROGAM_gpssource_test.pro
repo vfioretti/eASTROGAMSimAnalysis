@@ -354,7 +354,7 @@ endif
 
 
 if not keyword_set(nopsp) then begin
-  PS_Start, /encapsulated, FILENAME='eASTROGAM_gps_test_'+sim_name+'.eps', $
+  CGPS_Open, /encapsulated, FILENAME='eASTROGAM_gps_test_'+sim_name+'.eps', $
   FONT=0, CHARSIZE=1., nomatch=1, xsize=9., yoffset=9.6, ysize=7 
   bits_per_pixel=8
 endif
@@ -453,5 +453,5 @@ spacing=1.4, thick=2,/top, textcolor=[4,0], linestyle = lines, /right,box=0, out
 
 print, Earr_in, N_in_sim
 
-PS_End, /PNG
+CGPS_Close, /PNG
 end
