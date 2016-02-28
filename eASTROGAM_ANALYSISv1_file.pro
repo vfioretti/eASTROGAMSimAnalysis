@@ -175,7 +175,7 @@ if (astrogam_version EQ 'V1.0') then begin
     tracker_top_bot_diff = 90000
     
     cal_vol_start = 50000
-    cal_vol_end = 64399
+    cal_vol_end = 58463
 
     ac_vol_start = 301
     ac_vol_end = 350
