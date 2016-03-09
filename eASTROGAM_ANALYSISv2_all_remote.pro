@@ -1,4 +1,4 @@
-; eASTROGAM_ANALYSISv1_all_remote.pro - Description
+; eASTROGAM_ANALYSISv2_all_remote.pro - Description
 ; ---------------------------------------------------------------------------------
 ; Compacting the THELSim eASTROGAM processed files to a unique file:
 ; - Tracker
@@ -35,7 +35,7 @@
 ; ---------------------------------------------------------------------------------
 
 
-pro eASTROGAM_ANALYSISv1_all_remote, $
+pro eASTROGAM_ANALYSISv2_all_remote, $
   astrogam_version, $     ; % - Enter eASTROGAM release (e.g. V1.0):
   bogemms_tag, $          ; % - Enter BoGEMMS release (e.g. 211):
   sim_type, $             ; % - Enter simulation type [0 = Mono, 1 = Range, 2 = Chen, 3: Vela, 4: Crab, 4: G400]:
