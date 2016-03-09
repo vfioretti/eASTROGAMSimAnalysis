@@ -27,10 +27,16 @@ phi_deg_point = 225.d
 theta_point = theta_deg_point*(!PI/180.d)
 phi_point = phi_deg_point*(!PI/180.d)
 
-theta_deg_plane = 30.0d
+theta_deg_plane = 80.0d
 phi_deg_plane = 0.d
 theta_plane = theta_deg_plane*(!PI/180.d)
 phi_plane = phi_deg_plane*(!PI/180.d)
+
+theta_deg_pol = 90.0d
+phi_deg_pol = 45.0d
+theta_pol = theta_deg_pol*(!PI/180.d)
+phi_pol = phi_deg_pol*(!PI/180.d)
+
 
 ; source height
 h_s = 150.d  ;cm
@@ -121,6 +127,7 @@ Glob_Si_id_x_top = lonarr(Total_vol_x)
 Glob_tray_id_x_top = lonarr(Total_vol_x) 
 Glob_plane_id_x_top = lonarr(Total_vol_x) 
 Glob_energy_dep_x_top = dblarr(Total_vol_x) 
+Glob_pair_flag_x_top = dblarr(Total_vol_x)
 
 Glob_vol_id_y_top = lonarr(Total_vol_y) 
 Glob_pos_y_top = dblarr(Total_vol_y) 
@@ -131,6 +138,7 @@ Glob_Si_id_y_top = lonarr(Total_vol_y)
 Glob_tray_id_y_top = lonarr(Total_vol_y) 
 Glob_plane_id_y_top = lonarr(Total_vol_y) 
 Glob_energy_dep_y_top = dblarr(Total_vol_y) 
+Glob_pair_flag_y_top = dblarr(Total_vol_x)
 
 ; all strips are readout
 
@@ -158,6 +166,7 @@ for t=0l, N_tray-1 do begin
         Glob_Strip_id_x_top[(t)*N_strip + s] = s
         Glob_energy_dep_x_top[(t)*N_strip + s] = 0.
         Glob_vol_id_x_top[(t)*N_strip + s] = s
+        Glob_pair_flag_x_top[(t)*N_strip + s] = 0
 
         Strip_pos_x_top = -(Tray_side/2.0) + (pitch/2.) + (pitch*s)
         Glob_pos_x_top[(t)*N_strip + s] = Strip_pos_x_top/10.  ;cm
@@ -170,6 +179,7 @@ for t=0l, N_tray-1 do begin
         Glob_Strip_id_y_top[(t)*N_strip + s] = s
         Glob_energy_dep_y_top[(t)*N_strip + s] = 0.
         Glob_vol_id_y_top[(t)*N_strip + s] = s
+        Glob_pair_flag_y_top[(t)*N_strip + s] = 0
 
         Strip_pos_y_top = -(Tray_side/2.0) + (pitch/2.) + (pitch*s)
         Glob_pos_y_top[(t)*N_strip + s] = Strip_pos_y_top/10.  ;cm
@@ -178,7 +188,7 @@ for t=0l, N_tray-1 do begin
  endfor
  
 
-CREATE_STRUCT, eASTROGAMv1GridXTop, 'GrideASTROGAMv1XTop', ['VOLUME_ID', 'MOTHER_ID', 'TRAY_ID', 'PLANE_ID','TRK_FLAG', 'STRIP_ID', 'XPOS', 'ZPOS','E_DEP'], 'J,J,I,I,I,J,F20.5,F20.5,F20.5', DIMEN = N_ELEMENTS(Glob_vol_id_x_top)
+CREATE_STRUCT, eASTROGAMv1GridXTop, 'GrideASTROGAMv1XTop', ['VOLUME_ID', 'MOTHER_ID', 'TRAY_ID', 'PLANE_ID','TRK_FLAG', 'STRIP_ID', 'XPOS', 'ZPOS','E_DEP','PAIR_FLAG'], 'J,J,I,I,I,J,F20.5,F20.5,F20.5,I', DIMEN = N_ELEMENTS(Glob_vol_id_x_top)
 eASTROGAMv1GridXTop.VOLUME_ID = Glob_vol_id_x_Top
 eASTROGAMv1GridXTop.MOTHER_ID = Glob_moth_id_x_Top
 eASTROGAMv1GridXTop.TRAY_ID = Glob_tray_id_x_Top
@@ -188,13 +198,14 @@ eASTROGAMv1GridXTop.STRIP_ID = Glob_Strip_id_x_Top
 eASTROGAMv1GridXTop.XPOS = Glob_pos_x_Top
 eASTROGAMv1GridXTop.ZPOS = Glob_z_x_Top
 eASTROGAMv1GridXTop.E_DEP = Glob_energy_dep_x_Top
+eASTROGAMv1GridXTop.PAIR_FLAG = Glob_pair_flag_x_Top
 
 HDR_XGRID_Top = ['Creator          = Valentina Fioretti', $
                  'eASTROGAM release    = V1.0']
 
 MWRFITS, eASTROGAMv1GridXTop, './conf/ARCH.XSTRIP.TOP.eASTROGAMV1.0.TRACKER.FITS', HDR_XGRID_Top, /CREATE
 
-CREATE_STRUCT, eASTROGAMv1GridYTop, 'GrideASTROGAMv1YTop', ['VOLUME_ID', 'MOTHER_ID', 'TRAY_ID', 'PLANE_ID','TRK_FLAG', 'STRIP_ID', 'YPOS', 'ZPOS','E_DEP'], 'J,J,I,I,I,J,F20.5,F20.5,F20.5', DIMEN = N_ELEMENTS(Glob_vol_id_y_top)
+CREATE_STRUCT, eASTROGAMv1GridYTop, 'GrideASTROGAMv1YTop', ['VOLUME_ID', 'MOTHER_ID', 'TRAY_ID', 'PLANE_ID','TRK_FLAG', 'STRIP_ID', 'YPOS', 'ZPOS','E_DEP','PAIR_FLAG'], 'J,J,I,I,I,J,F20.5,F20.5,F20.5,I', DIMEN = N_ELEMENTS(Glob_vol_id_y_top)
 eASTROGAMv1GridYTop.VOLUME_ID = Glob_vol_id_y_Top
 eASTROGAMv1GridYTop.MOTHER_ID = Glob_moth_id_y_Top
 eASTROGAMv1GridYTop.TRAY_ID = Glob_tray_id_y_Top
@@ -204,6 +215,7 @@ eASTROGAMv1GridYTop.STRIP_ID = Glob_Strip_id_y_Top
 eASTROGAMv1GridYTop.YPOS = Glob_pos_y_Top
 eASTROGAMv1GridYTop.ZPOS = Glob_z_y_Top
 eASTROGAMv1GridYTop.E_DEP = Glob_energy_dep_y_Top
+eASTROGAMv1GridYTop.PAIR_FLAG = Glob_pair_flag_y_Top
 
 HDR_YGRID_Top = ['Creator          = Valentina Fioretti', $
                  'ASTROGAM release    = V3.0']
@@ -277,6 +289,16 @@ print, '% - P_y:', P_y
 print, '% - P_z:', P_z
 print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
 
+; Polarimetry Momenta
 
+P_x_pol = -sin(theta_pol)*cos(phi_pol)
+P_y_pol = -sin(theta_pol)*sin(phi_pol)
+P_z_pol = -cos(theta_pol)
+
+print, '% Polarimetry Momenta:'
+print, '% - P_x:', P_x_pol
+print, '% - P_y:', P_y_pol
+print, '% - P_z:', P_z_pol
+print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
 
 end
