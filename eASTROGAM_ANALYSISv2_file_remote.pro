@@ -219,6 +219,12 @@ if (sim_type EQ 5) then begin
    sim_name = 'G400'
 endif
 
+if (pol_type EQ 1) then begin
+  pol_string = strtrim(string(pol_angle),1)+'POL'
+endif else begin
+  pol_string = ''
+endelse
+
 if (source_g EQ 0) then begin
  sdir = '/Point'
  sname = 'Point'
