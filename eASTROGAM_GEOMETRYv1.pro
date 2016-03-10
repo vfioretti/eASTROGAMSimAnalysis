@@ -22,20 +22,62 @@ print, 'Configuration files path: ', outdir
 CheckOutDir = DIR_EXIST( outdir)
 if (CheckOutDir EQ 0) then spawn,'mkdir -p ./conf'
 
-theta_deg_point = 30.0d
+theta_deg_point = 30.d0
 phi_deg_point = 225.d
 theta_point = theta_deg_point*(!PI/180.d)
 phi_point = phi_deg_point*(!PI/180.d)
 
-theta_deg_plane = 80.0d
-phi_deg_plane = 0.d
+theta_deg_plane = 80.d0
+phi_deg_plane = 0.d0
 theta_plane = theta_deg_plane*(!PI/180.d)
 phi_plane = phi_deg_plane*(!PI/180.d)
 
-theta_deg_pol = 90.0d
-phi_deg_pol = 45.0d
+theta_deg_pol = 90.d0
+phi_deg_pol = 0.d0
 theta_pol = theta_deg_pol*(!PI/180.d)
 phi_pol = phi_deg_pol*(!PI/180.d)
+
+pol_vec = [sin(theta_pol)*cos(phi_pol), sin(theta_pol)*sin(phi_pol), cos(theta_pol)]
+
+
+M = [[cos(theta_point)*cos(phi_point), cos(theta_point)*sin(phi_point), -sin(theta_point)], $
+     [-sin(phi_point), cos(phi_point), 0.],$
+     [sin(theta_point)*cos(phi_point), sin(theta_point)*sin(phi_point), cos(theta_point)]]
+
+M_minus = invert(M)
+pol_vec_new = MATRIX_MULTIPLY(M, pol_vec)
+
+for j=0l, n_elements(pol_vec_new)-1 do begin
+  pol_vec_new[j] =  round(pol_vec_new[j]*1000000.)/1000000.
+endfor
+x_vec_new = pol_vec_new[0]
+y_vec_new = pol_vec_new[1]
+z_vec_new = pol_vec_new[2]
+
+
+if ((y_vec_new GE 0.) and (x_vec_new GE 0.)) then begin
+  theta_pol_global = (180./!PI)*acos(z_vec_new/sqrt(x_vec_new^2. + y_vec_new^2. + z_vec_new^2.))
+  phi_pol_global = (180./!PI)*asin(y_vec_new/sqrt(x_vec_new^2. + y_vec_new^2.))
+endif
+if ((y_vec_new GE 0.) and (x_vec_new LT 0.)) then begin
+  theta_pol_global = (180./!PI)*acos(z_vec_new/sqrt(x_vec_new^2. + y_vec_new^2. + z_vec_new^2.))
+  phi_pol_global = 180. - (180./!PI)*asin(y_vec_new/sqrt(x_vec_new^2. + y_vec_new^2.))
+endif
+if ((y_vec_new LT 0.) and (x_vec_new EQ 0.)) then begin
+  theta_pol_global = (180./!PI)*acos(z_vec_new/sqrt(x_vec_new^2. + y_vec_new^2. + z_vec_new^2.))
+  phi_pol_global = 360 + (180./!PI)*asin(y_vec_new/sqrt(x_vec_new^2. + y_vec_new^2.))
+endif
+if ((y_vec_new LT 0.) and (x_vec_new LT 0.)) then begin
+  theta_pol_global = (180./!PI)*acos(z_vec_new/sqrt(x_vec_new^2. + y_vec_new^2. + z_vec_new^2.))
+  phi_pol_global = 180. - (180./!PI)*asin(y_vec_new/sqrt(x_vec_new^2. + y_vec_new^2.))
+endif
+if ((y_vec_new LT 0.) and (x_vec_new GT 0.)) then begin
+  theta_pol_global = (180./!PI)*acos(z_vec_new/sqrt(x_vec_new^2. + y_vec_new^2. + z_vec_new^2.))
+  phi_pol_global = 360 + (180./!PI)*asin(y_vec_new/sqrt(x_vec_new^2. + y_vec_new^2.))
+endif
+
+theta_pol_global = theta_pol_global*(!PI/180.d)
+phi_pol_global = phi_pol_global*(!PI/180.d)
 
 
 ; source height
@@ -291,9 +333,9 @@ print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
 
 ; Polarimetry Momenta
 
-P_x_pol = -sin(theta_pol)*cos(phi_pol)
-P_y_pol = -sin(theta_pol)*sin(phi_pol)
-P_z_pol = -cos(theta_pol)
+P_x_pol = sin(theta_pol_global)*cos(phi_pol_global)
+P_y_pol = sin(theta_pol_global)*sin(phi_pol_global)
+P_z_pol = cos(theta_pol_global)
 
 print, '% Polarimetry Momenta:'
 print, '% - P_x:', P_x_pol
