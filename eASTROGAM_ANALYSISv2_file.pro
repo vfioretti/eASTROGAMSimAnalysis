@@ -100,7 +100,7 @@ read, pol_type, PROMPT='% - Is the source polarized? [0 = false, 1 = true]:'
 read, pol_angle, PROMPT='% - Enter Polarization angle:'
 
 if (pol_type EQ 1) then begin
-  pol_string = strtrim(string(pol_angle),1)+'POL'
+  pol_string = strtrim(string(pol_angle),1)+'POL.'
 endif else begin
   pol_string = ''
 endelse
@@ -219,7 +219,7 @@ endif
 
 run_path = GETENV('BGRUNS')
 
-filepath = run_path + '/eASTROGAM'+astrogam_version+sdir+'/theta'+strtrim(string(theta_type),1)+'/'+stripDir+py_dir+dir_cal+dir_passive+'/'+ene_type+'MeV.'+sim_name+'.'+strtrim(string(theta_type),1)+'theta.'+pol_string+'.'+strtrim(string(N_in),1)+part_type
+filepath = run_path + '/eASTROGAM'+astrogam_version+sdir+'/theta'+strtrim(string(theta_type),1)+'/'+stripDir+py_dir+dir_cal+dir_passive+'/'+ene_type+'MeV.'+sim_name+'.'+strtrim(string(theta_type),1)+'theta.'+pol_string+strtrim(string(N_in),1)+part_type
 print, 'eASTROGAM simulation path: ', filepath
 
 outdir = './eASTROGAM'+astrogam_version+sdir+'/theta'+strtrim(string(theta_type),1)+'/'+stripDir+py_dir+'/'+sim_name+'/'+ene_type+'MeV/'+strtrim(string(N_in),1)+part_type+dir_cal+dir_passive+'/'+strtrim(string(energy_thresh),1)+'keV'
@@ -637,7 +637,7 @@ if (astrogam_version EQ 'V1.0') then begin
 
     if (isStrip EQ 0) then begin
       
-        openw,lun,outdir+'/AA_FAKE_eASTROGAM'+astrogam_version+'_'+py_name+'_'+sim_name+'_'+stripname+'_'+sname+'_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'.'+strtrim(string(ifile),1)+'.dat',/get_lun
+        openw,lun,outdir+'/AA_FAKE_eASTROGAM'+astrogam_version+'_'+py_name+'_'+sim_name+'_'+stripname+'_'+sname+'_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.dat',/get_lun
         ; ASCII Columns:
         ; - c1 = event ID
         ; - c2 = theta input
@@ -1309,7 +1309,7 @@ if (astrogam_version EQ 'V1.0') then begin
                 'ENERGY UNIT      = KEV']
       
       
-      MWRFITS, L0TRACKERGLOBAL, outdir+'/L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+STRMID(STRTRIM(STRING(N_IN),1),0,10)+part_type+'.'+ene_type+'MeV.'+STRMID(STRTRIM(STRING(THETA_TYPE),1),0,10)+'.'+STRMID(STRTRIM(STRING(PHI_TYPE),1),0,10)+'.'+pol_string+'.'+strtrim(string(ifile),1)+'.fits', HDR_L0GLOBAL, /CREATE
+      MWRFITS, L0TRACKERGLOBAL, outdir+'/L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+STRMID(STRTRIM(STRING(N_IN),1),0,10)+part_type+'.'+ene_type+'MeV.'+STRMID(STRTRIM(STRING(THETA_TYPE),1),0,10)+'.'+STRMID(STRTRIM(STRING(PHI_TYPE),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', HDR_L0GLOBAL, /CREATE
       
   	
   	  
@@ -1318,7 +1318,7 @@ if (astrogam_version EQ 'V1.0') then begin
       print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
   
   
-      openw,lun,outdir+'/'+sim_tag+'_STRIP_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'.'+strtrim(string(ifile),1)+'.dat',/get_lun
+      openw,lun,outdir+'/'+sim_tag+'_STRIP_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.dat',/get_lun
       ; ASCII Columns:
       ; - c1 = event ID
       ; - c2 = theta input
@@ -1881,7 +1881,7 @@ if (astrogam_version EQ 'V1.0') then begin
                     'ENERGY UNIT      = KEV']
           
           
-          MWRFITS, L05TRACKER, outdir+'/L0.5.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+STRMID(STRTRIM(STRING(N_IN),1),0,10)+part_type+'.'+ene_type+'MeV.'+STRMID(STRTRIM(STRING(THETA_TYPE),1),0,10)+'.'+STRMID(STRTRIM(STRING(PHI_TYPE),1),0,10)+'.'+pol_string+'.'+strtrim(string(ifile),1)+'.fits', HDR_L05GLOBAL, /CREATE
+          MWRFITS, L05TRACKER, outdir+'/L0.5.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+STRMID(STRTRIM(STRING(N_IN),1),0,10)+part_type+'.'+ene_type+'MeV.'+STRMID(STRTRIM(STRING(THETA_TYPE),1),0,10)+'.'+STRMID(STRTRIM(STRING(PHI_TYPE),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', HDR_L05GLOBAL, /CREATE
       
       
           
@@ -1890,7 +1890,7 @@ if (astrogam_version EQ 'V1.0') then begin
           print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
       
           
-      openw,lun,outdir+'/'+sim_tag+'_CLUSTER_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'.'+strtrim(string(ifile),1)+'.dat',/get_lun
+      openw,lun,outdir+'/'+sim_tag+'_CLUSTER_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.dat',/get_lun
           ; ASCII Columns:
           ; - c1 = event ID
           ; - c2 = theta input
@@ -1951,7 +1951,7 @@ if (astrogam_version EQ 'V1.0') then begin
           print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
 
 
-          openw,lun,outdir+'/'+sim_tag+'_CLUSTER_PAIR_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'.'+strtrim(string(ifile),1)+'.dat',/get_lun
+          openw,lun,outdir+'/'+sim_tag+'_CLUSTER_PAIR_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.dat',/get_lun
           ; ASCII Columns:
           ; - c1 = event ID
           ; - c2 = theta input
@@ -2216,7 +2216,7 @@ if (astrogam_version EQ 'V1.0') then begin
                     'PHI              = '+STRTRIM(STRING(PHI_TYPE),1)+'   /Simulated input phi angle']
           
           
-          MWRFITS, KALMANTRACKER, outdir+'/KALMAN.TRACKER.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+STRMID(STRTRIM(STRING(N_IN),1),0,10)+part_type+'.'+ene_type+'MeV.'+STRMID(STRTRIM(STRING(THETA_TYPE),1),0,10)+'.'+STRMID(STRTRIM(STRING(PHI_TYPE),1),0,10)+'.'+pol_string+'.'+strtrim(string(ifile),1)+'.fits', HDR_KALMAN, /CREATE
+          MWRFITS, KALMANTRACKER, outdir+'/KALMAN.TRACKER.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+STRMID(STRTRIM(STRING(N_IN),1),0,10)+part_type+'.'+ene_type+'MeV.'+STRMID(STRTRIM(STRING(THETA_TYPE),1),0,10)+'.'+STRMID(STRTRIM(STRING(PHI_TYPE),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', HDR_KALMAN, /CREATE
           
           trigger_index = -1
           
@@ -2275,7 +2275,7 @@ if (astrogam_version EQ 'V1.0') then begin
                     'PHI              = '+STRTRIM(STRING(PHI_TYPE),1)+'   /Simulated input phi angle']
           
           
-          MWRFITS, KALMANTRIGGER, outdir+'/KALMAN.L1.TRACKER.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+STRMID(STRTRIM(STRING(N_IN),1),0,10)+part_type+'.'+ene_type+'MeV.'+STRMID(STRTRIM(STRING(THETA_TYPE),1),0,10)+'.'+STRMID(STRTRIM(STRING(PHI_TYPE),1),0,10)+'.'+pol_string+'.'+strtrim(string(ifile),1)+'.fits', HDR_KALMANTRIGGER, /CREATE
+          MWRFITS, KALMANTRIGGER, outdir+'/KALMAN.L1.TRACKER.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+STRMID(STRTRIM(STRING(N_IN),1),0,10)+part_type+'.'+ene_type+'MeV.'+STRMID(STRTRIM(STRING(THETA_TYPE),1),0,10)+'.'+STRMID(STRTRIM(STRING(PHI_TYPE),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', HDR_KALMANTRIGGER, /CREATE
           
           Glob_event_id_sum = Glob_event_id_sum[1:*]
           Glob_Si_id_sum =  Glob_Si_id_sum[1:*]
@@ -2303,7 +2303,7 @@ if (astrogam_version EQ 'V1.0') then begin
                     'ENERGY UNIT      = KEV']
           
           
-          MWRFITS, SUMTRACKER, outdir+'/SUM.TRACKER.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+STRMID(STRTRIM(STRING(N_IN),1),0,10)+part_type+'.'+ene_type+'MeV.'+STRMID(STRTRIM(STRING(THETA_TYPE),1),0,10)+'.'+STRMID(STRTRIM(STRING(PHI_TYPE),1),0,10)+'.'+pol_string+'.'+strtrim(string(ifile),1)+'.fits', HDR_SUM, /CREATE
+          MWRFITS, SUMTRACKER, outdir+'/SUM.TRACKER.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+STRMID(STRTRIM(STRING(N_IN),1),0,10)+part_type+'.'+ene_type+'MeV.'+STRMID(STRTRIM(STRING(THETA_TYPE),1),0,10)+'.'+STRMID(STRTRIM(STRING(PHI_TYPE),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', HDR_SUM, /CREATE
   
 
   endif ; endif end of is Strip
@@ -2393,7 +2393,7 @@ if (astrogam_version EQ 'V1.0') then begin
                      'Phi     = '+strtrim(string(phi_type),1), $
                      'Energy unit = GeV']
       
-      MWRFITS, calInput, outdir+'/G4.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'.'+strtrim(string(ifile),1)+'.fits', hdr_calInput, /create
+      MWRFITS, calInput, outdir+'/G4.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_calInput, /create
   
       event_id_tot_cal_sum = -1l
       bar_ene_tot_sum = -1.
@@ -2427,7 +2427,7 @@ if (astrogam_version EQ 'V1.0') then begin
                      'Phi     = '+strtrim(string(phi_type),1), $
                      'Energy unit = GeV']
       
-      MWRFITS, calInput, outdir+'/SUM.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'.'+strtrim(string(ifile),1)+'.fits', hdr_calInputSum, /create
+      MWRFITS, calInput, outdir+'/SUM.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_calInputSum, /create
       
    endif
     
@@ -2576,7 +2576,7 @@ if (ac_flag EQ 1) then begin
                    'Phi     = '+strtrim(string(phi_type),1), $
                    'Energy unit = GeV']
     
-    MWRFITS, acInput, outdir+'/G4.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'.'+strtrim(string(ifile),1)+'.fits', hdr_acInput, /create
+    MWRFITS, acInput, outdir+'/G4.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_acInput, /create
 ;    
 ;    openw,lun,outdir+'/G4_GAMS_AC_AGILE'+agile_version+'_'+py_name+'_'+sim_name+'_'+stripname+'_'+sname+'_'+strmid(strtrim(string(N_in),1),0,10)+'ph_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+strtrim(string(ifile),1)+'.dat',/get_lun
 ;    ; ASCII Columns:
