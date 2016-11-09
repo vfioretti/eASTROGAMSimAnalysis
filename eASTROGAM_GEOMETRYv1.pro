@@ -33,7 +33,7 @@ theta_plane = theta_deg_plane*(!PI/180.d)
 phi_plane = phi_deg_plane*(!PI/180.d)
 
 theta_deg_pol = 90.d0
-phi_deg_pol = 0.d0
+phi_deg_pol = 20.d0
 theta_pol = theta_deg_pol*(!PI/180.d)
 phi_pol = phi_deg_pol*(!PI/180.d)
 
