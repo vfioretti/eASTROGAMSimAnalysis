@@ -49,6 +49,7 @@ pro eASTROGAM_ANALYSISv21_file_remote, $
     energy_thresh           ; % - Enter energy threshold [keV]:
 
 
+astrogam_tag = ''
 if (astrogam_version EQ 'V1.0') then begin
   astrogam_tag = '01'
   sim_tag = 'eAST'+bogemms_tag+astrogam_tag+'0102'
