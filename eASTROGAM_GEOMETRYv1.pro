@@ -22,6 +22,9 @@ print, 'Configuration files path: ', outdir
 CheckOutDir = DIR_EXIST( outdir)
 if (CheckOutDir EQ 0) then spawn,'mkdir -p ./conf'
 
+eASTROGAM_version = "V1.1"
+
+
 theta_deg_point = 30.d0
 phi_deg_point = 225.d
 theta_point = theta_deg_point*(!PI/180.d)
@@ -98,7 +101,7 @@ Al_t = tracker_pitch - Si_t
 dist_tray = 0.   ;mm
 
 print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
-print, '%                eASTROGAM V1.0                    %
+print, '%                eASTROGAM'+eASTROGAM_version+'                    %
 print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
 print, '% - Number of trays:', N_tray 
 print, '% - Number of strips:', N_strip
@@ -243,9 +246,9 @@ eASTROGAMv1GridXTop.E_DEP = Glob_energy_dep_x_Top
 eASTROGAMv1GridXTop.PAIR_FLAG = Glob_pair_flag_x_Top
 
 HDR_XGRID_Top = ['Creator          = Valentina Fioretti', $
-                 'eASTROGAM release    = V1.0']
+                 'eASTROGAM release    = '+eASTROGAM_version]
 
-MWRFITS, eASTROGAMv1GridXTop, './conf/ARCH.XSTRIP.TOP.eASTROGAMV1.0.TRACKER.FITS', HDR_XGRID_Top, /CREATE
+MWRFITS, eASTROGAMv1GridXTop, './conf/ARCH.XSTRIP.TOP.eASTROGAM'+eASTROGAM_version+'.TRACKER.FITS', HDR_XGRID_Top, /CREATE
 
 CREATE_STRUCT, eASTROGAMv1GridYTop, 'GrideASTROGAMv1YTop', ['VOLUME_ID', 'MOTHER_ID', 'TRAY_ID', 'PLANE_ID','TRK_FLAG', 'STRIP_ID', 'YPOS', 'ZPOS','E_DEP','PAIR_FLAG'], 'J,J,I,I,I,J,F20.5,F20.5,F20.5,I', DIMEN = N_ELEMENTS(Glob_vol_id_y_top)
 eASTROGAMv1GridYTop.VOLUME_ID = Glob_vol_id_y_Top
@@ -262,7 +265,7 @@ eASTROGAMv1GridYTop.PAIR_FLAG = Glob_pair_flag_y_Top
 HDR_YGRID_Top = ['Creator          = Valentina Fioretti', $
                  'ASTROGAM release    = V3.0']
 
-MWRFITS, eASTROGAMv1GridYTop, './conf/ARCH.YSTRIP.TOP.eASTROGAMV1.0.TRACKER.FITS', HDR_YGRID_Top, /CREATE
+MWRFITS, eASTROGAMv1GridYTop, './conf/ARCH.YSTRIP.TOP.eASTROGAM'+eASTROGAM_version+'.TRACKER.FITS', HDR_YGRID_Top, /CREATE
 
 print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
 print, '% Output FITS files with X and Y strip positions'
