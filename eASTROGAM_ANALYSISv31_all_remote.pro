@@ -507,7 +507,6 @@ for ifile=0, n_files-1 do begin
      aa_kalman_pair_edep = [aa_kalman_pair_edep, c9]
      aa_kalman_pair_strip_number = [aa_kalman_pair_strip_number, c10]
      aa_kalman_pair_pair = [aa_kalman_pair_pair, c11]
-     print, aa_kalman_pair_pair
     endif
  
     filenamedat_aa_kalman_compton = filepath+sim_tag+'_CLUSTER_COMPTON_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.dat'
