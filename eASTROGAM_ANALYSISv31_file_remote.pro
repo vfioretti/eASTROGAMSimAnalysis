@@ -745,14 +745,14 @@ for ifile=0, n_fits-1 do begin
         ; ------------------------------------
         ; X VIEW
         for r=0l, n_elements(Cluster_x_temp)-1 do begin
-          if (e_dep_x_temp(r) GE E_th) then begin
+          if (e_dep_x_temp(r) GT E_th) then begin
             printf, lun, event_id(j), theta_type, phi_type, ene_type, plane_id_temp(r), Cluster_z_temp(r), 0, Cluster_x_temp(r), e_dep_x_temp(r), 1, child_temp(r), proc_temp(r), format='(I5,I5,I5,I5,I5,F10.5,I5,F10.5,F10.5,I5,I5,I5)'
           endif
         endfor
 
         ; Y VIEW
         for r=0l, n_elements(Cluster_y_temp)-1 do begin
-          if (e_dep_y_temp(r) GE E_th) then begin
+          if (e_dep_y_temp(r) GT E_th) then begin
             printf, lun, event_id(j), theta_type, phi_type, ene_type, plane_id_temp(r), Cluster_z_temp(r), 1, Cluster_y_temp(r), e_dep_y_temp(r), 1, child_temp(r), proc_temp(r), format='(I5,I5,I5,I5,I5,F10.5,I5,F10.5,F10.5,I5,I5,I5)'
           endif
         endfor
@@ -1024,7 +1024,7 @@ for ifile=0, n_fits-1 do begin
 
     ; apply the energy thresold
 
-    where_eth = where(energy_dep_tot GE E_th)
+    where_eth = where(energy_dep_tot GT E_th)
     event_id_tot = event_id_tot[where_eth]
     vol_id_tot = vol_id_tot[where_eth]
     moth_id_tot = moth_id_tot[where_eth]
@@ -2190,7 +2190,7 @@ for ifile=0, n_fits-1 do begin
       while(1) do begin
         where_vol_eq = where(vol_id_temp_cal EQ vol_id_temp_cal(r), complement = where_other_vol)
         bar_ene_tot_temp = total(bar_ene_temp(where_vol_eq))
-        if (bar_ene_tot_temp GE E_th_cal) then begin
+        if (bar_ene_tot_temp GT E_th_cal) then begin
           event_id_tot_cal = [event_id_tot_cal, event_id_cal(j)]
           vol_id_tot_cal = [vol_id_tot_cal, vol_id_temp_cal(r)]
           bar_id_tot = [bar_id_tot, vol_id_temp_cal(r) - cal_vol_start]
