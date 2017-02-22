@@ -15,6 +15,7 @@
 
 pro eASTROGAM_KalmanLUT
 
+astrogam_version = 'V1.1'
 outdir = './conf/
 print, 'Configuration files path: ', outdir
 
@@ -49,7 +50,7 @@ Al_t = tracker_pitch - Si_t
 dist_tray = 0.   ;mm
 
 print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
-print, '%                eASTROGAM V1.0                    %
+print, '%                eASTROGAM '+astrogam_version+'                    %
 print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
 print, '% - Number of trays:', N_tray 
 print, '% - Number of strips:', N_strip
@@ -188,10 +189,10 @@ KALMANXTop.XPOS = Glob_pos_x_Top
 KALMANXTop.ZPOS = Glob_z_x_Top
 KALMANXTop.E_DEP = Glob_energy_dep_x_Top
 
-HDR_XGRID_Top = ['Creator          = Valentina Fioretti', $
-                 'AeSTROGAM release    = V1.0']
+HDR_XGRID_Top = ['Creator = Valentina Fioretti', $
+                 'AeSTROGAM release    = '+astrogam_version]
 
-MWRFITS, KALMANXTop, './conf/KALMAN.XTOP.eASTROGAMV1.0.TRACKER.FITS', HDR_XGRID_Top, /CREATE
+MWRFITS, KALMANXTop, './conf/KALMAN.XTOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS', HDR_XGRID_Top, /CREATE
 
 CREATE_STRUCT, KALMANYTop, 'KALMANYTop', ['VOLUME_ID', 'MOTHER_ID', 'TRAY_ID', 'PLANE_ID','TRK_FLAG', 'STRIP_ID', 'YPOS', 'ZPOS','E_DEP'], 'J,J,I,I,I,J,F20.5,F20.5,F20.5', DIMEN = N_ELEMENTS(Glob_vol_id_y_top)
 KALMANYTop.VOLUME_ID = Glob_vol_id_y_Top
@@ -204,10 +205,10 @@ KALMANYTop.YPOS = Glob_pos_y_Top
 KALMANYTop.ZPOS = Glob_z_y_Top
 KALMANYTop.E_DEP = Glob_energy_dep_y_Top
 
-HDR_YGRID_Top = ['Creator          = Valentina Fioretti', $
-                 'eASTROGAM release    = V1.0']
+HDR_YGRID_Top = ['Creator = Valentina Fioretti', $
+                 'eASTROGAM release    = '+astrogam_version]
 
-MWRFITS, KALMANYTop, './conf/KALMAN.YTOP.eASTROGAMV1.0.TRACKER.FITS', HDR_YGRID_Top, /CREATE
+MWRFITS, KALMANYTop, './conf/KALMAN.YTOP.eASTROGAM'+astrogam_version+'.TRACKER.FITS', HDR_YGRID_Top, /CREATE
 
 
 end
