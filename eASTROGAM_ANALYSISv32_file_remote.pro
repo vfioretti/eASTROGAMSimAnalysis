@@ -660,8 +660,8 @@ for ifile=0, n_fits-1 do begin
     phi_exit_ac = phi_exit_ac[1:*]
 
     part_id_ac = part_id_ac[1:*]
-    child_ac = child_ac[1:*]
-    proc_ac = proc_ac[1:*]
+    child_ac = child_id_ac[1:*]
+    proc_ac = proc_id_ac[1:*]
     
     gtime_ent_ac = gtime_ent_ac[1:*]
 
