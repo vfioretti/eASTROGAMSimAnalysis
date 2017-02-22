@@ -4,9 +4,9 @@
 
 pro computeEfficiency
 
-N_in = 10000.
+N_in = 100000.
 
-filenamefits_raw = '/THELSim/eASTROGAMSimAnalysis/eASTROGAMV1.0/Point/theta30/PixelRepli/ASTROMEV/MONO/10MeV/10000ph/onlyCAL/15keV/onlyPair/G4.RAW.eASTROGAMV1.0.ASTROMEV.MONO.PIXEL.REPLI.Point.10000ph.10MeV.30.225.all.fits'
+filenamefits_raw = '/scratch/astrogam/eASTROGAM/eASTROGAMSimAnalysis/eASTROGAMV1.1/Point/theta30/PixelRepli/ASTROMEV/MONO/10MeV/100000ph/OnlyTracker/15keV/G4.RAW.eASTROGAMV1.1.ASTROMEV.MONO.PIXEL.REPLI.Point.100000ph.10MeV.30.225.all.fits'
 struct_raw_conv = mrdfits(filenamefits_raw,$
   1, $
   structyp = 'raw_conv', $

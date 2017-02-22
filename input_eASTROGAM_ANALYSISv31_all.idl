@@ -47,4 +47,4 @@
 
 
 .compile eASTROGAM_ANALYSISv31_all_remote
-eASTROGAM_ANALYSISv31_all_remote, 'V1.1', '211', 0, 400, 1000, "ph", 1, 0, 100, 100, "UNI", 30, 225, 0, 20, 0, 1, 1, 0, 0, 0, 15
+eASTROGAM_ANALYSISv31_all_remote, 'V1.1', '211', 0, 400, 10000, "ph", 4, 0, 5, 5, "UNI", 30, 225, 0, 20, 0, 1, 1, 0, 0, 0, 0
