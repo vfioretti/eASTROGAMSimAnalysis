@@ -2379,7 +2379,7 @@ for ifile=0, n_fits-1 do begin
       pair_flag_tot_cal = pair_flag_tot_cal[1:*]
     endif
 
-
+    print, pair_flag_tot_cal
     CREATE_STRUCT, calInput, 'input_cal_astrogam', ['EVT_ID', 'BAR_ID', 'BAR_ENERGY', 'PAIR_FLAG'], $
       'I,I,F20.15,I', DIMEN = n_elements(event_id_tot_cal)
     calInput.EVT_ID = event_id_tot_cal
