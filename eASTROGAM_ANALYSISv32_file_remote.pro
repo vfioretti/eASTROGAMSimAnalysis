@@ -2379,23 +2379,23 @@ for ifile=0, n_fits-1 do begin
       pair_flag_tot_cal = pair_flag_tot_cal[1:*]
     endif
 
-    print, pair_flag_tot_cal
-    CREATE_STRUCT, calInput, 'input_cal_astrogam', ['EVT_ID', 'BAR_ID', 'BAR_ENERGY', 'PAIR_FLAG'], $
+   
+    CREATE_STRUCT, calInput_flag, 'input_cal_eastrogam', ['EVT_ID', 'BAR_ID', 'BAR_ENERGY', 'PAIR_FLAG'], $
       'I,I,F20.15,I', DIMEN = n_elements(event_id_tot_cal)
-    calInput.EVT_ID = event_id_tot_cal
-    calInput.BAR_ID = bar_id_tot
-    calInput.BAR_ENERGY = bar_ene_tot
-    calInput.PAIR_FLAG = pair_flag_tot_cal
+    calInput_flag.EVT_ID = event_id_tot_cal
+    calInput_flag.BAR_ID = bar_id_tot
+    calInput_flag.BAR_ENERGY = bar_ene_tot
+    calInput_flag.PAIR_FLAG = pair_flag_tot_cal
 
 
-    hdr_calInput = ['COMMENT  eASTROGAM V'+astrogam_version+' Geant4 simulation', $
+    hdr_calInput_flag = ['COMMENT  eASTROGAM V'+astrogam_version+' Geant4 simulation', $
       'N_in     = '+strtrim(string(N_in),1), $
       'Energy     = '+ene_type, $
       'Theta     = '+strtrim(string(theta_type),1), $
       'Phi     = '+strtrim(string(phi_type),1), $
       'Energy unit = GeV']
 
-    MWRFITS, calInput, outdir+'/G4.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_calInput, /create
+    MWRFITS, calInput_flag, outdir+'/G4.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_calInput_flag, /create
 
     event_id_tot_cal_sum = -1l
     bar_ene_tot_sum = -1.
@@ -2576,23 +2576,23 @@ for ifile=0, n_fits-1 do begin
       endif
     endfor
 
-    CREATE_STRUCT, acInput, 'input_ac_dhsim', ['EVT_ID', 'AC_PANEL', 'AC_SUBPANEL', 'E_DEP', 'PAIR_FLAG'], $
+    CREATE_STRUCT, acInput_flag, 'input_ac_dhsim_flag', ['EVT_ID', 'AC_PANEL', 'AC_SUBPANEL', 'E_DEP', 'PAIR_FLAG'], $
       'I,A,I,F20.15,I', DIMEN = n_elements(event_id_tot_ac)
-    acInput.EVT_ID = event_id_tot_ac
-    acInput.AC_PANEL = AC_panel
-    acInput.AC_SUBPANEL = AC_subpanel
-    acInput.E_DEP = energy_dep_tot_ac
-    acInput.PAIR_FLAG = pair_flag_tot_ac
+    acInput_flag.EVT_ID = event_id_tot_ac
+    acInput_flag.AC_PANEL = AC_panel
+    acInput_flag.AC_SUBPANEL = AC_subpanel
+    acInput_flag.E_DEP = energy_dep_tot_ac
+    acInput_flag.PAIR_FLAG = pair_flag_tot_ac
 
 
-    hdr_acInput = ['COMMENT  eASTROGAM '+astrogam_version+' Geant4 simulation', $
+    hdr_acInput_flag = ['COMMENT  eASTROGAM '+astrogam_version+' Geant4 simulation', $
       'N_in     = '+strtrim(string(N_in),1), $
       'Energy     = '+ene_type, $
       'Theta     = '+strtrim(string(theta_type),1), $
       'Phi     = '+strtrim(string(phi_type),1), $
       'Energy unit = GeV']
 
-    MWRFITS, acInput, outdir+'/G4.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_acInput, /create
+    MWRFITS, acInput_flag, outdir+'/G4.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_acInput_flag, /create
     
 
   endif
