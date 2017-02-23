@@ -19,7 +19,7 @@
 ; email                : fioretti@iasfbo.inaf.it
 ; ----------------------------------------------
 ; Usage:
-; eASTROGAM_ANALYSISv31_all
+; eASTROGAM_ANALYSISv32_all
 ; ---------------------------------------------------------------------------------
 
 
@@ -438,6 +438,7 @@ endelse
 calInput_event_id_tot_cal = -1l
 calInput_bar_id_tot = -1l
 calInput_bar_ene_tot = -1.
+calInput_pair_flag_tot = -1l
 
 ; SUM.CAL.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
 calInputSum_event_id_tot_cal = -1l
@@ -448,6 +449,7 @@ acInput_event_id_tot_ac = -1l
 acInput_AC_panel = ''
 acInput_AC_subpanel = -1l
 acInput_energy_dep_tot_ac = -1.
+acInput_pair_flag_tot = -1.
 
 filepath = './eASTROGAM'+astrogam_version+sdir+'/theta'+strtrim(string(theta_type),1)+'/'+stripDir+py_dir+'/'+sim_name+'/'+ene_type+'MeV/'+strtrim(string(N_in),1)+part_type+dir_cal+dir_passive+'/'+strtrim(string(energy_thresh),1)+'keV/'
 print, 'LEVEL0 file path: ', filepath
@@ -616,6 +618,7 @@ for ifile=0, n_files-1 do begin
     calInput_event_id_tot_cal = [calInput_event_id_tot_cal, struct_cal.EVT_ID]
     calInput_bar_id_tot = [calInput_bar_id_tot, struct_cal.BAR_ID]
     calInput_bar_ene_tot = [calInput_bar_ene_tot, struct_cal.BAR_ENERGY]
+    calInput_bar_ene_tot = [calInput_bar_ene_tot, struct_cal.PAIR_FLAG]
 
 
     filenamefits_cal_sum = filepath+'SUM.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits'
@@ -880,7 +883,8 @@ if (cal_flag EQ 1) then begin
   calInput_event_id_tot_cal = calInput_event_id_tot_cal[1:*]
   calInput_bar_id_tot = calInput_bar_id_tot[1:*]
   calInput_bar_ene_tot = calInput_bar_ene_tot[1:*]
-
+  calInput_pair_flag_tot = calInput_pair_flag_tot[1:*]
+  
   ; SUM.CAL.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
   calInputSum_event_id_tot_cal = calInputSum_event_id_tot_cal[1:*]
   calInputSum_bar_ene_tot = calInputSum_bar_ene_tot[1:*]
@@ -891,6 +895,7 @@ if (ac_flag EQ 1) then begin
   acInput_AC_panel = acInput_AC_panel[1:*]
   acInput_AC_subpanel = acInput_AC_subpanel[1:*]
   acInput_energy_dep_tot_ac = acInput_energy_dep_tot_ac[1:*]
+  acInput_pair_flag_tot = acInput_pair_flag_tot[1:*]
 endif
 
 if (isStrip) then begin
@@ -972,11 +977,12 @@ if (isStrip) then begin
 
 endif
 if (cal_flag EQ 1) then begin
-  CREATE_STRUCT, calInput, 'input_cal_dhsim', ['EVT_ID','BAR_ID', 'BAR_ENERGY'], $
-    'I,I,F20.15', DIMEN = n_elements(calInput_event_id_tot_cal)
+  CREATE_STRUCT, calInput, 'input_cal_dhsim', ['EVT_ID','BAR_ID', 'BAR_ENERGY', 'PAIR_FLAG'], $
+    'I,I,F20.15,I', DIMEN = n_elements(calInput_event_id_tot_cal)
   calInput.EVT_ID = calInput_event_id_tot_cal
   calInput.BAR_ID = calInput_bar_id_tot
   calInput.BAR_ENERGY = calInput_bar_ene_tot
+  calInput.PAIR_FLAG = calInput_pair_flag_tot
 
 
   hdr_calInput = ['COMMENT  eASTROGAM V2.0 Geant4 simulation', $
@@ -1005,13 +1011,14 @@ if (cal_flag EQ 1) then begin
 
 endif
 if (ac_flag EQ 1) then begin
-  CREATE_STRUCT, acInput, 'input_ac_dhsim', ['EVT_ID', 'AC_PANEL', 'AC_SUBPANEL', 'E_DEP'], $
-    'I,A,I,F20.15', DIMEN = n_elements(acInput_event_id_tot_ac)
+  CREATE_STRUCT, acInput, 'input_ac_dhsim', ['EVT_ID', 'AC_PANEL', 'AC_SUBPANEL', 'E_DEP', 'PAIR_FLAG'], $
+    'I,A,I,F20.15,I', DIMEN = n_elements(acInput_event_id_tot_ac)
   acInput.EVT_ID = acInput_event_id_tot_ac
   acInput.AC_PANEL = acInput_AC_panel
   acInput.AC_SUBPANEL = acInput_AC_subpanel
   acInput.E_DEP = acInput_energy_dep_tot_ac
-
+  acInput.PAIR_FLAG = acInput_pair_flag_tot
+ 
 
   hdr_acInput = ['COMMENT  eASTROGAM V'+astrogam_version+' Geant4 simulation', $
     'N_in     = '+strtrim(string(N_in),1), $
