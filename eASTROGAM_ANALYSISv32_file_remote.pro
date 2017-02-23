@@ -910,9 +910,9 @@ for ifile=0, n_fits-1 do begin
           
           where_pair = where((all_child EQ 1) and (all_proc EQ 7))
           if (where_pair(0) NE -1) then begin
-            if (all_gtime[where_pair] LT gtime_ref) then begin
+            if (all_gtime[where_pair[0]] LT gtime_ref) then begin
                pair_flag_tot = [pair_flag_tot, 1]
-               gtime_ref = all_gtime[where_pair]
+               gtime_ref = all_gtime[where_pair[0]]
             endif else begin
                pair_flag_tot = [pair_flag_tot, 0]
             endelse
@@ -921,9 +921,9 @@ for ifile=0, n_fits-1 do begin
           endelse
           where_compton = where((all_child EQ 1) and (all_proc EQ 3))
           if (where_compton(0) NE -1) then begin
-            if (all_gtime[where_compton] LT gtime_ref) then begin
+            if (all_gtime[where_compton[0]] LT gtime_ref) then begin
                pair_flag_tot = [pair_flag_tot, 2]
-               gtime_ref = all_gtime[where_compton]
+               gtime_ref = all_gtime[where_compton[0]]
             endif else begin
                pair_flag_tot = [pair_flag_tot, 0]
             endelse
