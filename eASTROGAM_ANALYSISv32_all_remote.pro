@@ -618,7 +618,7 @@ for ifile=0, n_files-1 do begin
     calInput_event_id_tot_cal = [calInput_event_id_tot_cal, struct_cal.EVT_ID]
     calInput_bar_id_tot = [calInput_bar_id_tot, struct_cal.BAR_ID]
     calInput_bar_ene_tot = [calInput_bar_ene_tot, struct_cal.BAR_ENERGY]
-    calInput_bar_ene_tot = [calInput_bar_ene_tot, struct_cal.PAIR_FLAG]
+    calInput_pair_flag_tot = [calInput_pair_flag_tot, struct_cal.PAIR_FLAG]
 
 
     filenamefits_cal_sum = filepath+'SUM.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits'
@@ -641,6 +641,7 @@ for ifile=0, n_files-1 do begin
     acInput_AC_panel = [acInput_AC_panel, struct_ac.AC_PANEL]
     acInput_AC_subpanel = [acInput_AC_subpanel, struct_ac.AC_SUBPANEL]
     acInput_energy_dep_tot_ac = [acInput_energy_dep_tot_ac, struct_ac.E_DEP]
+    acInput_pair_flag_tot = [acInput_pair_flag_tot, struct_ac.PAIR_FLAG]
   endif
 endfor
 

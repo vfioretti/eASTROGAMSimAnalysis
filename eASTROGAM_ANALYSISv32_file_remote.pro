@@ -892,7 +892,11 @@ for ifile=0, n_fits-1 do begin
         gtime_pair = 0
         iscompton = 0
         gtime_compton = 0
+        isprimary = 0
         while(1) do begin
+          ispair_vol = 0
+          iscompton_vol = 0
+          isprimary_vol = 0
           where_vol_eq = where(((vol_id_temp EQ vol_id_temp(r)) and (moth_id_temp EQ moth_id_temp(r))), complement = where_other_vol)
           ; summing the energy 
           e_dep_temp = total(energy_dep_temp(where_vol_eq))
@@ -921,12 +925,9 @@ for ifile=0, n_fits-1 do begin
                gtime_ref = all_gtime[where_pair[0]]
                gtime_pair = all_gtime[where_pair[0]]
                ispair = 1
-            endif else begin
-               pair_flag_tot = [pair_flag_tot, 0]
-            endelse
-          endif else begin
-            pair_flag_tot = [pair_flag_tot, 0]
-          endelse
+               ispair_vol = 1
+            endif
+          endif
           where_compton = where((all_child EQ 1) and (all_proc EQ 3))
           if (where_compton(0) NE -1) then begin
             if (all_gtime[where_compton[0]] LT gtime_ref) then begin
@@ -934,35 +935,29 @@ for ifile=0, n_fits-1 do begin
                gtime_ref = all_gtime[where_compton[0]]
                gtime_compton = all_gtime[where_compton[0]]
                iscompton = 1
-            endif else begin
-               pair_flag_tot = [pair_flag_tot, 0]
-            endelse
-          endif else begin
-            pair_flag_tot = [pair_flag_tot, 0]
-          endelse
+               iscompton_vol = 1
+            endif
+          endif
           where_primary = where(all_child EQ 0)
-          if (ispair) then begin
+          if ((ispair) and (not ispair_vol)) then begin
             if (where_primary(0) NE -1) then begin
               if (all_gtime[where_primary[0]] GT gtime_pair) then begin
                 pair_flag_tot = [pair_flag_tot, 3]
-              endif else begin
-                pair_flag_tot = [pair_flag_tot, 0]
-              endelse
-            endif else begin
-                pair_flag_tot = [pair_flag_tot, 0]
-            endelse
+                isprimary = 1
+                isprimary_vol = 1
+              endif
+            endif
           endif
-          if (iscompton) then begin
+          if ((iscompton) and (not iscompton_vol)) then begin
             if (where_primary(0) NE -1) then begin
               if (all_gtime[where_primary[0]] GT gtime_compton) then begin
                 pair_flag_tot = [pair_flag_tot, 3]
-              endif else begin
-                pair_flag_tot = [pair_flag_tot, 0]
-              endelse
-            endif else begin
-              pair_flag_tot = [pair_flag_tot, 0]
-            endelse
+                isprimary = 1
+                isprimary_vol = 1
+              endif
+            endif
           endif
+          if ((ispair_vol EQ 0) and (iscompton_vol EQ 0) and (isprimary_vol EQ 0)) then pair_flag_tot = [pair_flag_tot, 0]
           
           if (where_other_vol(0) NE -1) then begin
             vol_id_temp = vol_id_temp(where_other_vol)
@@ -2301,7 +2296,13 @@ for ifile=0, n_fits-1 do begin
 
       r = 0l
       gtime_ref = 10.^9.
+      ispair = 0
+      iscompton = 0
+      isprimary = 0
       while(1) do begin
+        ispair_vol = 0
+        iscompton_vol = 0
+        isprimary_vol = 0
         where_vol_eq = where(vol_id_temp_cal EQ vol_id_temp_cal(r), complement = where_other_vol)
         bar_ene_tot_temp = total(bar_ene_temp(where_vol_eq))
         if (bar_ene_tot_temp GT E_th_cal) then begin
@@ -2323,35 +2324,44 @@ for ifile=0, n_fits-1 do begin
           where_pair = where((all_child EQ 1) and (all_proc EQ 7))
           if (where_pair(0) NE -1) then begin
             if (all_gtime[where_pair[0]] LT gtime_ref) then begin
-              pair_flag_tot_cal = [pair_flag_tot_cal, 1]
-              gtime_ref = all_gtime[where_pair[0]]
-            endif else begin
-              pair_flag_tot_cal = [pair_flag_tot_cal, 0]
-            endelse
-          endif else begin
-            pair_flag_tot_cal = [pair_flag_tot_cal, 0]
-          endelse
+               pair_flag_tot_cal = [pair_flag_tot_cal, 1]
+               gtime_ref = all_gtime[where_pair[0]]
+               gtime_pair = all_gtime[where_pair[0]]
+               ispair = 1
+               ispair_vol
+            endif
+          endif
           where_compton = where((all_child EQ 1) and (all_proc EQ 3))
           if (where_compton(0) NE -1) then begin
             if (all_gtime[where_compton[0]] LT gtime_ref) then begin
-              pair_flag_tot_cal = [pair_flag_tot_cal, 2]
-              gtime_ref = all_gtime[where_compton[0]]
-            endif else begin
-              pair_flag_tot_cal = [pair_flag_tot_cal, 0]
-            endelse
-          endif else begin
-            pair_flag_tot_cal = [pair_flag_tot_cal, 0]
-          endelse
+               pair_flag_tot_cal = [pair_flag_tot_cal, 2]
+               gtime_ref = all_gtime[where_compton[0]]
+               gtime_compton = all_gtime[where_compton[0]]
+               iscompton = 1
+               iscompton_vol = 1
+            endif
+          endif
           where_primary = where(all_child EQ 0)
-          if (where_primary(0) NE -1) then begin
-            if (all_gtime[where_primary[0]] GT gtime_pair) then begin
+          if ((ispair) and (not ispair_vol)) then begin
+            if (where_primary(0) NE -1) then begin
+              if (all_gtime[where_primary[0]] GT gtime_pair) then begin
                 pair_flag_tot_cal = [pair_flag_tot_cal, 3]
-            endif else begin
-                pair_flag_tot_cal = [pair_flag_tot_cal, 0]
-            endelse
-          endif else begin
-              pair_flag_tot_cal = [pair_flag_tot_cal, 0]
-          endelse
+                isprimary = 1
+                isprimary_vol = 1
+              endif
+            endif
+          endif
+          if ((iscompton) and (not iscompton_vol)) then begin
+            if (where_primary(0) NE -1) then begin
+              if (all_gtime[where_primary[0]] GT gtime_compton) then begin
+                pair_flag_tot_cal = [pair_flag_tot_cal, 3]
+                isprimary = 1
+                isprimary_vol = 1
+              endif
+            endif
+          endif
+          if ((not ispair_vol) and (not iscompton_vol) and (not isprimary_vol)) then pair_flag_tot_cal = [pair_flag_tot_cal, 0]
+          
         endif
         if (where_other_vol(0) NE -1) then begin
           vol_id_temp_cal = vol_id_temp_cal(where_other_vol)
@@ -2429,7 +2439,7 @@ for ifile=0, n_fits-1 do begin
       'Phi     = '+strtrim(string(phi_type),1), $
       'Energy unit = GeV']
 
-    MWRFITS, calInput, outdir+'/SUM.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_calInputSum, /create
+    MWRFITS, calInputSum, outdir+'/SUM.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_calInputSum, /create
 
   endif
 
@@ -2453,7 +2463,7 @@ for ifile=0, n_fits-1 do begin
     j=0l
     while (1) do begin
       where_event_eq = where(event_id_ac EQ event_id_ac(j))
-
+      
       N_trig_ac = N_trig_ac + 1
 
       vol_id_temp_ac = vol_id_ac(where_event_eq)
@@ -2465,7 +2475,13 @@ for ifile=0, n_fits-1 do begin
 
       r = 0l
       gtime_ref = 10.^9.
+      ispair = 0
+      iscompton = 0
+      isprimary = 0
       while(1) do begin
+        ispair_vol = 0
+        iscompton_vol = 0
+        isprimary_vol = 0
         where_vol_eq = where(vol_id_temp_ac EQ vol_id_temp_ac(r), complement = where_other_vol)
         event_id_tot_ac = [event_id_tot_ac, event_id_ac(j)]
         vol_id_tot_ac = [vol_id_tot_ac, vol_id_temp_ac(r)]
@@ -2480,40 +2496,50 @@ for ifile=0, n_fits-1 do begin
         all_child = child_id_temp_ac(where_vol_eq)
         all_proc = proc_id_temp_ac(where_vol_eq)
         all_gtime = gtime_temp_ac(where_vol_eq)
-
+        
         where_pair = where((all_child EQ 1) and (all_proc EQ 7))
         if (where_pair(0) NE -1) then begin
           if (all_gtime[where_pair[0]] LT gtime_ref) then begin
-            pair_flag_tot_ac = [pair_flag_tot_ac, 1]
-            gtime_ref = all_gtime[where_pair[0]]
-          endif else begin
-            pair_flag_tot_ac = [pair_flag_tot_ac, 0]
-          endelse
-        endif else begin
-          pair_flag_tot_ac = [pair_flag_tot_ac, 0]
-        endelse
+             pair_flag_tot_ac = [pair_flag_tot_ac, 1]
+             gtime_ref = all_gtime[where_pair[0]]
+             gtime_pair = all_gtime[where_pair[0]]
+             ispair = 1
+             ispair_vol = 1
+          endif
+        endif
         where_compton = where((all_child EQ 1) and (all_proc EQ 3))
         if (where_compton(0) NE -1) then begin
           if (all_gtime[where_compton[0]] LT gtime_ref) then begin
-            pair_flag_tot_ac = [pair_flag_tot_ac, 2]
-            gtime_ref = all_gtime[where_compton[0]]
-          endif else begin
-            pair_flag_tot_ac = [pair_flag_tot_ac, 0]
-          endelse
-        endif else begin
-          pair_flag_tot_ac = [pair_flag_tot_ac, 0]
-        endelse
+             pair_flag_tot_ac = [pair_flag_tot_ac, 2]
+             gtime_ref = all_gtime[where_compton[0]]
+             gtime_compton = all_gtime[where_compton[0]]
+             iscompton = 1
+             iscompton_vol = 1
+          endif
+        endif
         where_primary = where(all_child EQ 0)
-        if (where_primary(0) NE -1) then begin
-          if (all_gtime[where_primary[0]] GT gtime_pair) then begin
-            pair_flag_tot_ac = [pair_flag_tot_ac, 3]
-          endif else begin
-            pair_flag_tot_ac = [pair_flag_tot_ac, 0]
-          endelse
-        endif else begin
-          pair_flag_tot_ac = [pair_flag_tot_ac, 0]
-        endelse
- 
+        if ((ispair) and (not ispair_vol)) then begin
+          if (where_primary(0) NE -1) then begin
+            if (all_gtime[where_primary[0]] GT gtime_pair) then begin
+              pair_flag_tot_ac = [pair_flag_tot_ac, 3]
+              isprimary = 1
+              isprimary_vol = 1
+            endif
+          endif
+        endif
+        if ((iscompton) and (not iscompton_vol)) then begin
+          if (where_primary(0) NE -1) then begin
+            if (all_gtime[where_primary[0]] GT gtime_compton) then begin
+              if not (isprimary_vol) then begin
+                pair_flag_tot_ac = [pair_flag_tot_ac, 3]
+              endif
+              isprimary = 1
+              isprimary_vol = 1
+            endif
+          endif
+        endif
+        if ((not ispair_vol) and (not iscompton_vol) and (not isprimary_vol)) then pair_flag_tot_ac = [pair_flag_tot_ac, 0]
+          
         if (where_other_vol(0) NE -1) then begin
           vol_id_temp_ac = vol_id_temp_ac(where_other_vol)
           moth_id_temp_ac = moth_id_temp_ac(where_other_vol)
