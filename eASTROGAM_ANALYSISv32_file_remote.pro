@@ -337,6 +337,7 @@ for ifile=0, n_fits-1 do begin
   phi_exit = -1.
 
   part_id = -1l
+  trk_id = -1l
   child_id = -1l
   proc_id = -1l
   
@@ -362,6 +363,7 @@ for ifile=0, n_fits-1 do begin
   phi_exit_cal = -1.
 
   part_id_cal = -1l
+  trk_id_cal = -1l
   child_id_cal = -1l
   proc_id_cal = -1l
   
@@ -387,6 +389,7 @@ for ifile=0, n_fits-1 do begin
   phi_exit_ac = -1.
 
   part_id_ac = -1l
+  trk_id_ac = -1l
   child_id_ac = -1l
   proc_id_ac = -1l
   
@@ -424,6 +427,7 @@ for ifile=0, n_fits-1 do begin
         phi_exit = [phi_exit, (180./!PI)*atan((struct(k).MDY_EXIT)/(struct(k).MDX_EXIT))]
 
         part_id = [part_id, struct(k).PARTICLE_ID]
+        trk_id = [trk_id, struct(k).TRK_ID]
         child_id = [child_id, struct(k).PARENT_TRK_ID]
         proc_id = [proc_id, struct(k).PROCESS_ID]
 
@@ -451,6 +455,7 @@ for ifile=0, n_fits-1 do begin
           phi_exit = [phi_exit, (180./!PI)*atan((struct(k).MDY_EXIT)/(struct(k).MDX_EXIT))]
 
           part_id = [part_id, struct(k).PARTICLE_ID]
+          trk_id = [trk_id, struct(k).TRK_ID]
           child_id = [child_id, struct(k).PARENT_TRK_ID]
           proc_id = [proc_id, struct(k).PROCESS_ID]
 
@@ -482,6 +487,7 @@ for ifile=0, n_fits-1 do begin
           phi_exit_cal = [phi_exit_cal, (180./!PI)*atan((struct(k).MDY_EXIT)/(struct(k).MDX_EXIT))]
 
           part_id_cal = [part_id_cal, struct(k).PARTICLE_ID]
+          trk_id_cal = [trk_id_cal, struct(k).TRK_ID]
           child_id_cal = [child_id_cal, struct(k).PARENT_TRK_ID]
           proc_id_cal = [proc_id_cal, struct(k).PROCESS_ID]
           
@@ -508,6 +514,7 @@ for ifile=0, n_fits-1 do begin
             phi_exit_cal = [phi_exit_cal, (180./!PI)*atan((struct(k).MDY_EXIT)/(struct(k).MDX_EXIT))]
 
             part_id_cal = [part_id_cal, struct(k).PARTICLE_ID]
+            trk_id_cal = [trk_id_cal, struct(k).TRK_ID]
             child_id_cal = [child_id_cal, struct(k).PARENT_TRK_ID]
             proc_id_cal = [proc_id_cal, struct(k).PROCESS_ID]
 
@@ -538,6 +545,7 @@ for ifile=0, n_fits-1 do begin
         phi_exit_ac = [phi_exit_ac, (180./!PI)*atan((struct(k).MDY_EXIT)/(struct(k).MDX_EXIT))]
 
         part_id_ac = [part_id_ac, struct(k).PARTICLE_ID]
+        trk_id_ac = [trk_id_ac, struct(k).TRK_ID]
         child_id_ac = [child_id_ac, struct(k).PARENT_TRK_ID]
         proc_id_ac = [proc_id_ac, struct(k).PROCESS_ID]
 
@@ -564,6 +572,7 @@ for ifile=0, n_fits-1 do begin
           phi_exit_ac = [phi_exit_ac, (180./!PI)*atan((struct(k).MDY_EXIT)/(struct(k).MDX_EXIT))]
 
           part_id_ac = [part_id_ac, struct(k).PARTICLE_ID]
+          trk_id_ac = [trk_id_ac, struct(k).TRK_ID]
           child_id_ac = [child_id_ac, struct(k).PARENT_TRK_ID]
           proc_id_ac = [proc_id_ac, struct(k).PROCESS_ID]
           
@@ -606,6 +615,7 @@ for ifile=0, n_fits-1 do begin
   phi_exit = phi_exit[1:*]
 
   part_id = part_id[1:*]
+  trk_id = trk_id[1:*]
   child_id = child_id[1:*]
   proc_id = proc_id[1:*]
 
@@ -632,6 +642,7 @@ for ifile=0, n_fits-1 do begin
     phi_exit_cal = phi_exit_cal[1:*]
 
     part_id_cal = part_id_cal[1:*]
+    trk_id_cal = trk_id_cal[1:*]
     child_id_cal = child_id_cal[1:*]
     proc_id_cal = proc_id_cal[1:*]
 
@@ -660,8 +671,9 @@ for ifile=0, n_fits-1 do begin
     phi_exit_ac = phi_exit_ac[1:*]
 
     part_id_ac = part_id_ac[1:*]
-    child_ac = child_id_ac[1:*]
-    proc_ac = proc_id_ac[1:*]
+    trk_id_ac = trk_id_ac[1:*]
+    child_id_ac = child_id_ac[1:*]
+    proc_id_ac = proc_id_ac[1:*]
     
     gtime_ent_ac = gtime_ent_ac[1:*]
 
@@ -726,8 +738,8 @@ for ifile=0, n_fits-1 do begin
 
   if ((astrogam_version EQ 'V1.0') or (astrogam_version EQ 'V1.1')) then begin
 
-    CREATE_STRUCT, rawData, 'rawData', ['EVT_ID', 'VOL_ID', 'MOTH_ID', 'TRAY_ID', 'PLANE_ID', 'STRIP_ID_X', 'STRIP_ID_Y', 'E_DEP', 'X_ENT', 'Y_ENT', 'Z_ENT', 'X_EXIT', 'Y_EXIT', 'Z_EXIT', 'PART_ID', 'CHILD_ID', 'PROC_ID'], $
-      'I,I,J,I,I,I,I,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,I,I,I', DIMEN = n_elements(event_id)
+    CREATE_STRUCT, rawData, 'rawData', ['EVT_ID', 'VOL_ID', 'MOTH_ID', 'TRAY_ID', 'PLANE_ID', 'STRIP_ID_X', 'STRIP_ID_Y', 'E_DEP', 'X_ENT', 'Y_ENT', 'Z_ENT', 'X_EXIT', 'Y_EXIT', 'Z_EXIT', 'PART_ID', 'TRK_ID', 'CHILD_ID', 'PROC_ID'], $
+      'I,I,J,I,I,I,I,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,I,I,I,I', DIMEN = n_elements(event_id)
     rawData.EVT_ID = event_id
     rawData.VOL_ID = vol_id
     rawData.MOTH_ID = moth_id
@@ -743,6 +755,7 @@ for ifile=0, n_fits-1 do begin
     rawData.Y_EXIT = exit_y
     rawData.Z_EXIT = exit_z
     rawData.PART_ID = part_id
+    rawData.TRK_ID = trk_id
     rawData.CHILD_ID = child_id
     rawData.PROC_ID = proc_id
 
@@ -755,7 +768,8 @@ for ifile=0, n_fits-1 do begin
       'Position unit = cm', $
       'Energy unit = keV']
 
-    MWRFITS, rawData, outdir+'/G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_rawData, /create
+    MWRFITS, rawData, outdir+'/G4.RAW.TRACKER.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_rawData, /create
+
 
     if (isStrip EQ 0) then begin
 
@@ -790,14 +804,14 @@ for ifile=0, n_fits-1 do begin
         ; X VIEW
         for r=0l, n_elements(Cluster_x_temp)-1 do begin
           if (e_dep_x_temp(r) GT E_th) then begin
-            printf, lun, event_id(j), theta_type, phi_type, ene_type, plane_id_temp(r), Cluster_z_temp(r), 0, Cluster_x_temp(r), e_dep_x_temp(r), 1, child_temp(r), proc_temp(r), format='(I5,I5,I5,I5,I5,F10.5,I5,F10.5,F10.5,I5,I5,I5)'
+            printf, lun, event_id(j), theta_type, phi_type, ene_type, plane_id_temp(r), Cluster_z_temp(r), 0, Cluster_x_temp(r), e_dep_x_temp(r), 1, child_temp(r), proc_temp(r), format='(I7,I7,I7,I7,I7,F10.7,I7,F10.7,F10.7,I7,I7,I7)'
           endif
         endfor
 
         ; Y VIEW
         for r=0l, n_elements(Cluster_y_temp)-1 do begin
           if (e_dep_y_temp(r) GT E_th) then begin
-            printf, lun, event_id(j), theta_type, phi_type, ene_type, plane_id_temp(r), Cluster_z_temp(r), 1, Cluster_y_temp(r), e_dep_y_temp(r), 1, child_temp(r), proc_temp(r), format='(I5,I5,I5,I5,I5,F10.5,I5,F10.5,F10.5,I5,I5,I5)'
+            printf, lun, event_id(j), theta_type, phi_type, ene_type, plane_id_temp(r), Cluster_z_temp(r), 1, Cluster_y_temp(r), e_dep_y_temp(r), 1, child_temp(r), proc_temp(r), format='(I7,I7,I7,I7,I7,F10.7,I7,F10.7,F10.7,I7,I7,I7)'
           endif
         endfor
 
@@ -882,17 +896,33 @@ for ifile=0, n_fits-1 do begin
         tray_id_temp = tray_id(where_event_eq)
         plane_id_temp = plane_id(where_event_eq)
         energy_dep_temp = energy_dep(where_event_eq)
+        trk_id_temp = trk_id(where_event_eq)
         child_id_temp = child_id(where_event_eq)
         proc_id_temp = proc_id(where_event_eq)
         gtime_temp = gtime_ent(where_event_eq)
 
+        where_pair = where((child_id_temp EQ 1) and (proc_id_temp EQ 7) and (trk_id_temp LE 3))
+        where_compton = where((child_id_temp EQ 1) and (proc_id_temp EQ 3) and (trk_id_temp LE 2))
+        if (where_pair(0) NE -1) then begin
+           gtime_pair = gtime_temp[where_pair]
+           ispair = 1
+        endif else begin
+          ispair = 0
+        endelse
+        if (where_compton(0) NE -1) then begin
+          gtime_compton = gtime_temp[where_compton]
+          iscompton = 1
+        endif else begin
+          iscompton = 0
+        endelse
+
+        if ((ispair) and (iscompton)) then begin
+          if (gtime_pair(0) LT gtime_compton(0)) then iscompton = 0
+          if (gtime_compton(0) LT gtime_pair(0)) then ispair = 0
+        endif
+        
+
         r = 0l
-        gtime_ref = 10.^9.
-        ispair = 0
-        gtime_pair = 0
-        iscompton = 0
-        gtime_compton = 0
-        isprimary = 0
         while(1) do begin
           ispair_vol = 0
           iscompton_vol = 0
@@ -913,52 +943,44 @@ for ifile=0, n_fits-1 do begin
           ; generated by the primary
           ; if one of hits in the same volume is a pair the summed event is flagged as 1
           ; if one of hits in the same volume is a compton the summed event is flagged as 2
-          ; hits generated by the primary after the pair/compton interaction are flagged as 3
+          ; hits generated by the primary before pair interaction are flagged as 3
+          ; hits generated by the primary after compton interaction are flagged as 4
           all_child = child_id_temp(where_vol_eq)
+          all_trk = trk_id_temp(where_vol_eq)
           all_proc = proc_id_temp(where_vol_eq)
           all_gtime = gtime_temp(where_vol_eq)
           
-          where_pair = where((all_child EQ 1) and (all_proc EQ 7))
-          if (where_pair(0) NE -1) then begin
-            if (all_gtime[where_pair[0]] LT gtime_ref) then begin
-               pair_flag_tot = [pair_flag_tot, 1]
-               gtime_ref = all_gtime[where_pair[0]]
-               gtime_pair = all_gtime[where_pair[0]]
-               ispair = 1
-               ispair_vol = 1
-            endif
+          where_pair_vol = where((all_child EQ 1) and (all_proc EQ 7) and (all_trk LE 3))
+          where_compton_vol = where((all_child EQ 1) and (all_proc EQ 3) and (all_trk LE 2))
+          if ((where_pair_vol(0) NE -1) and (ispair)) then begin
+              pair_flag_tot = [pair_flag_tot, 1]
+              ispair_vol = 1
           endif
-          where_compton = where((all_child EQ 1) and (all_proc EQ 3))
-          if (where_compton(0) NE -1) then begin
-            if (all_gtime[where_compton[0]] LT gtime_ref) then begin
-               pair_flag_tot = [pair_flag_tot, 2]
-               gtime_ref = all_gtime[where_compton[0]]
-               gtime_compton = all_gtime[where_compton[0]]
-               iscompton = 1
-               iscompton_vol = 1
-            endif
+          if ((where_compton_vol(0) NE -1) and (iscompton)) then begin
+              pair_flag_tot = [pair_flag_tot, 2]
+              iscompton_vol = 1
           endif
           where_primary = where(all_child EQ 0)
           if ((ispair) and (not ispair_vol)) then begin
             if (where_primary(0) NE -1) then begin
-              if (all_gtime[where_primary[0]] GT gtime_pair) then begin
+              if (all_gtime[where_primary[0]] LT gtime_pair(0)) then begin
                 pair_flag_tot = [pair_flag_tot, 3]
-                isprimary = 1
                 isprimary_vol = 1
               endif
             endif
           endif
           if ((iscompton) and (not iscompton_vol)) then begin
             if (where_primary(0) NE -1) then begin
-              if (all_gtime[where_primary[0]] GT gtime_compton) then begin
-                pair_flag_tot = [pair_flag_tot, 3]
-                isprimary = 1
+              if (all_gtime[where_primary[0]] GT gtime_compton(0)) then begin
+                pair_flag_tot = [pair_flag_tot, 4]
                 isprimary_vol = 1
               endif
             endif
           endif
-          if ((ispair_vol EQ 0) and (iscompton_vol EQ 0) and (isprimary_vol EQ 0)) then pair_flag_tot = [pair_flag_tot, 0]
-          
+          if ((not ispair_vol) and (not iscompton_vol) and (not isprimary_vol)) then begin
+            pair_flag_tot = [pair_flag_tot, 0]
+          endif
+                  
           if (where_other_vol(0) NE -1) then begin
             vol_id_temp = vol_id_temp(where_other_vol)
             moth_id_temp = moth_id_temp(where_other_vol)
@@ -967,6 +989,7 @@ for ifile=0, n_fits-1 do begin
             tray_id_temp = tray_id_temp(where_other_vol)
             plane_id_temp = plane_id_temp(where_other_vol)
             energy_dep_temp = energy_dep_temp(where_other_vol)
+            trk_id_temp = trk_id_temp(where_other_vol)
             child_id_temp = child_id_temp(where_other_vol)
             proc_id_temp = proc_id_temp(where_other_vol)
             gtime_temp = gtime_temp(where_other_vol)
@@ -1533,7 +1556,7 @@ for ifile=0, n_fits-1 do begin
         where_x = where(Glob_Si_id_test_temp EQ 0)
         if (where_x(0) NE -1) then begin
           for r=0l, n_elements(where_x)-1 do begin
-            printf, lun, Glob_event_id_test(j), theta_type, phi_type, ene_type, Glob_plane_id_test_temp(where_x(r)), Glob_zpos_test_temp(where_x(r)), 0, Glob_Strip_id_test_temp(where_x(r)), Glob_pos_test_temp(where_x(r)), Glob_energy_dep_test_temp(where_x(r)), Glob_pair_flag_test_temp(where_x(r)), format='(I5,I5,I5,I7,I5,F10.5,I5,I5,F10.5,F10.5,I5)'
+            printf, lun, Glob_event_id_test(j), theta_type, phi_type, ene_type, Glob_plane_id_test_temp(where_x(r)), Glob_zpos_test_temp(where_x(r)), 0, Glob_Strip_id_test_temp(where_x(r)), Glob_pos_test_temp(where_x(r)), Glob_energy_dep_test_temp(where_x(r)), Glob_pair_flag_test_temp(where_x(r)), format='(I7,I7,I7,I7,I7,F20.7,I7,I7,F10.7,F10.7,I7)'
           endfor
         endif
 
@@ -1541,7 +1564,7 @@ for ifile=0, n_fits-1 do begin
         where_y = where(Glob_Si_id_test_temp EQ 1)
         if (where_y(0) NE -1) then begin
           for r=0l, n_elements(where_y)-1 do begin
-            printf, lun, Glob_event_id_test(j), theta_type, phi_type, ene_type, Glob_plane_id_test_temp(where_y(r)), Glob_zpos_test_temp(where_y(r)), 1, Glob_Strip_id_test_temp(where_y(r)), Glob_pos_test_temp(where_y(r)), Glob_energy_dep_test_temp(where_y(r)), Glob_pair_flag_test_temp(where_y(r)), format='(I5,I5,I5,I7,I5,F10.5,I5,I5,F10.5,F10.5,I5)'
+            printf, lun, Glob_event_id_test(j), theta_type, phi_type, ene_type, Glob_plane_id_test_temp(where_y(r)), Glob_zpos_test_temp(where_y(r)), 1, Glob_Strip_id_test_temp(where_y(r)), Glob_pos_test_temp(where_y(r)), Glob_energy_dep_test_temp(where_y(r)), Glob_pair_flag_test_temp(where_y(r)), format='(I7,I7,I7,I7,I7,F10.7,I7,I7,F10.7,F10.7,I7)'
           endfor
         endif
         ; ------------------------------------
@@ -2108,7 +2131,7 @@ for ifile=0, n_fits-1 do begin
         where_x = where(Glob_Si_id_cluster_temp EQ 0)
         if (where_x(0) NE -1) then begin
           for r=0l, n_elements(where_x)-1 do begin
-            printf, lun, Glob_event_id_cluster(j), theta_type, phi_type, ene_type, Glob_plane_id_cluster_temp(where_x(r)), Glob_zpos_cluster_temp(where_x(r)), 0, Glob_pos_cluster_temp(where_x(r)), Glob_energy_dep_cluster_temp(where_x(r)), Glob_Strip_number_cluster_temp(where_x(r)), Glob_pair_flag_cluster_temp(where_x(r)), format='(I5,I5,I5,I7,I5,F10.5,I5,F10.5,F10.5,I5,I5)'
+            printf, lun, Glob_event_id_cluster(j), theta_type, phi_type, ene_type, Glob_plane_id_cluster_temp(where_x(r)), Glob_zpos_cluster_temp(where_x(r)), 0, Glob_pos_cluster_temp(where_x(r)), Glob_energy_dep_cluster_temp(where_x(r)), Glob_Strip_number_cluster_temp(where_x(r)), Glob_pair_flag_cluster_temp(where_x(r)), format='(I7,I7,I7,I7,I7,F10.7,I7,F10.7,F10.7,I7,I7)'
           endfor
         endif
 
@@ -2116,7 +2139,7 @@ for ifile=0, n_fits-1 do begin
         where_y = where(Glob_Si_id_cluster_temp EQ 1)
         if (where_y(0) NE -1) then begin
           for r=0l, n_elements(where_y)-1 do begin
-            printf, lun, Glob_event_id_cluster(j), theta_type, phi_type, ene_type, Glob_plane_id_cluster_temp(where_y(r)), Glob_zpos_cluster_temp(where_y(r)), 1, Glob_pos_cluster_temp(where_y(r)), Glob_energy_dep_cluster_temp(where_y(r)), Glob_Strip_number_cluster_temp(where_y(r)), Glob_pair_flag_cluster_temp(where_y(r)), format='(I5,I5,I5,I7,I5,F10.5,I5,F10.5,F10.5,I5,I5)'
+            printf, lun, Glob_event_id_cluster(j), theta_type, phi_type, ene_type, Glob_plane_id_cluster_temp(where_y(r)), Glob_zpos_cluster_temp(where_y(r)), 1, Glob_pos_cluster_temp(where_y(r)), Glob_energy_dep_cluster_temp(where_y(r)), Glob_Strip_number_cluster_temp(where_y(r)), Glob_pair_flag_cluster_temp(where_y(r)), format='(I7,I7,I7,I7,I7,F10.7,I7,F10.7,F10.7,I7,I7)'
           endfor
         endif
         ; ------------------------------------
@@ -2169,7 +2192,7 @@ for ifile=0, n_fits-1 do begin
         where_x = where(Glob_Si_id_cluster_temp EQ 0)
         if (where_x(0) NE -1) then begin
           for r=0l, n_elements(where_x)-1 do begin
-            if (Glob_pair_flag_cluster_temp(where_x(r)) EQ 1) then printf, lun, Glob_event_id_cluster(j), theta_type, phi_type, ene_type, Glob_plane_id_cluster_temp(where_x(r)), Glob_zpos_cluster_temp(where_x(r)), 0, Glob_pos_cluster_temp(where_x(r)), Glob_energy_dep_cluster_temp(where_x(r)), Glob_Strip_number_cluster_temp(where_x(r)), Glob_pair_flag_cluster_temp(where_x(r)), format='(I5,I5,I5,I7,I5,F10.5,I5,F10.5,F10.5,I5,I5)'
+            if ((Glob_pair_flag_cluster_temp(where_x(r)) EQ 1) or (Glob_pair_flag_cluster_temp(where_x(r)) EQ 3)) then printf, lun, Glob_event_id_cluster(j), theta_type, phi_type, ene_type, Glob_plane_id_cluster_temp(where_x(r)), Glob_zpos_cluster_temp(where_x(r)), 0, Glob_pos_cluster_temp(where_x(r)), Glob_energy_dep_cluster_temp(where_x(r)), Glob_Strip_number_cluster_temp(where_x(r)), Glob_pair_flag_cluster_temp(where_x(r)), format='(I7,I7,I7,I7,I7,F10.7,I7,F10.7,F10.7,I7,I7)'
           endfor
         endif
 
@@ -2177,7 +2200,7 @@ for ifile=0, n_fits-1 do begin
         where_y = where(Glob_Si_id_cluster_temp EQ 1)
         if (where_y(0) NE -1) then begin
           for r=0l, n_elements(where_y)-1 do begin
-            if (Glob_pair_flag_cluster_temp(where_y(r)) EQ 1) then printf, lun, Glob_event_id_cluster(j), theta_type, phi_type, ene_type, Glob_plane_id_cluster_temp(where_y(r)), Glob_zpos_cluster_temp(where_y(r)), 1, Glob_pos_cluster_temp(where_y(r)), Glob_energy_dep_cluster_temp(where_y(r)), Glob_Strip_number_cluster_temp(where_y(r)), Glob_pair_flag_cluster_temp(where_y(r)), format='(I5,I5,I5,I7,I5,F10.5,I5,F10.5,F10.5,I5,I5)'
+            if ((Glob_pair_flag_cluster_temp(where_y(r)) EQ 1) or (Glob_pair_flag_cluster_temp(where_y(r)) EQ 3)) then printf, lun, Glob_event_id_cluster(j), theta_type, phi_type, ene_type, Glob_plane_id_cluster_temp(where_y(r)), Glob_zpos_cluster_temp(where_y(r)), 1, Glob_pos_cluster_temp(where_y(r)), Glob_energy_dep_cluster_temp(where_y(r)), Glob_Strip_number_cluster_temp(where_y(r)), Glob_pair_flag_cluster_temp(where_y(r)), format='(I7,I7,I7,I7,I7,F10.7,I7,F10.7,F10.7,I7,I7)'
           endfor
         endif
         ; ------------------------------------
@@ -2230,7 +2253,7 @@ for ifile=0, n_fits-1 do begin
         where_x = where(Glob_Si_id_cluster_temp EQ 0)
         if (where_x(0) NE -1) then begin
           for r=0l, n_elements(where_x)-1 do begin
-            if (Glob_pair_flag_cluster_temp(where_x(r)) EQ 2) then printf, lun, Glob_event_id_cluster(j), theta_type, phi_type, ene_type, Glob_plane_id_cluster_temp(where_x(r)), Glob_zpos_cluster_temp(where_x(r)), 0, Glob_pos_cluster_temp(where_x(r)), Glob_energy_dep_cluster_temp(where_x(r)), Glob_Strip_number_cluster_temp(where_x(r)), Glob_pair_flag_cluster_temp(where_x(r)), format='(I5,I5,I5,I7,I5,F10.5,I5,F10.5,F10.5,I5,I5)'
+            if ((Glob_pair_flag_cluster_temp(where_x(r)) EQ 2) or (Glob_pair_flag_cluster_temp(where_x(r)) EQ 4)) then printf, lun, Glob_event_id_cluster(j), theta_type, phi_type, ene_type, Glob_plane_id_cluster_temp(where_x(r)), Glob_zpos_cluster_temp(where_x(r)), 0, Glob_pos_cluster_temp(where_x(r)), Glob_energy_dep_cluster_temp(where_x(r)), Glob_Strip_number_cluster_temp(where_x(r)), Glob_pair_flag_cluster_temp(where_x(r)), format='(I7,I7,I7,I7,I7,F10.7,I7,F10.7,F10.7,I7,I7)'
           endfor
         endif
         
@@ -2238,7 +2261,7 @@ for ifile=0, n_fits-1 do begin
         where_y = where(Glob_Si_id_cluster_temp EQ 1)
         if (where_y(0) NE -1) then begin
           for r=0l, n_elements(where_y)-1 do begin
-            if (Glob_pair_flag_cluster_temp(where_y(r)) EQ 2) then printf, lun, Glob_event_id_cluster(j), theta_type, phi_type, ene_type, Glob_plane_id_cluster_temp(where_y(r)), Glob_zpos_cluster_temp(where_y(r)), 1, Glob_pos_cluster_temp(where_y(r)), Glob_energy_dep_cluster_temp(where_y(r)), Glob_Strip_number_cluster_temp(where_y(r)), Glob_pair_flag_cluster_temp(where_y(r)), format='(I5,I5,I5,I7,I5,F10.5,I5,F10.5,F10.5,I5,I5)'
+            if ((Glob_pair_flag_cluster_temp(where_y(r)) EQ 2) or (Glob_pair_flag_cluster_temp(where_y(r)) EQ 4)) then printf, lun, Glob_event_id_cluster(j), theta_type, phi_type, ene_type, Glob_plane_id_cluster_temp(where_y(r)), Glob_zpos_cluster_temp(where_y(r)), 1, Glob_pos_cluster_temp(where_y(r)), Glob_energy_dep_cluster_temp(where_y(r)), Glob_Strip_number_cluster_temp(where_y(r)), Glob_pair_flag_cluster_temp(where_y(r)), format='(I7,I7,I7,I7,I7,F10.7,I7,F10.7,F10.7,I7,I7)'
           endfor
         endif
         ; ------------------------------------
@@ -2256,9 +2279,40 @@ for ifile=0, n_fits-1 do begin
 
   if (cal_flag EQ 1) then begin
 
-    ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-    ;                             Processing the calorimeter
-    ; %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+    print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+    print, '                          CAL'
+    print, '                    write raw data                 '
+    print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+
+
+    CREATE_STRUCT, rawData_cal, 'rawData_cal', ['EVT_ID', 'VOL_ID', 'MOTH_ID', 'E_DEP', 'X_ENT', 'Y_ENT', 'Z_ENT', 'X_EXIT', 'Y_EXIT', 'Z_EXIT', 'PART_ID', 'TRK_ID', 'CHILD_ID', 'PROC_ID'], $
+      'I,I,I,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,I,I,I,I', DIMEN = n_elements(event_id_cal)
+    rawData_cal.EVT_ID = event_id_cal
+    rawData_cal.VOL_ID = vol_id_cal
+    rawData_cal.MOTH_ID = moth_id_cal
+    rawData_cal.E_DEP = energy_dep_cal
+    rawData_cal.X_ENT = ent_x_cal
+    rawData_cal.Y_ENT = ent_y_cal
+    rawData_cal.Z_ENT = ent_z_cal
+    rawData_cal.X_EXIT = exit_x_cal
+    rawData_cal.Y_EXIT = exit_y_cal
+    rawData_cal.Z_EXIT = exit_z_cal
+    rawData_cal.PART_ID = part_id_cal
+    rawData_cal.TRK_ID = trk_id_cal
+    rawData_cal.CHILD_ID = child_id_cal
+    rawData_cal.PROC_ID = proc_id_cal
+
+
+    hdr_rawData_cal = ['COMMENT  eASTROGAM '+astrogam_version+' Geant4 simulation', $
+      'N_in     = '+strtrim(string(N_in),1), $
+      'Energy     = '+ene_type, $
+      'Theta     = '+strtrim(string(theta_type),1), $
+      'Phi     = '+strtrim(string(phi_type),1), $
+      'Position unit = cm', $
+      'Energy unit = keV']
+
+    MWRFITS, rawData_cal, outdir+'/G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_rawData_cal, /create
+
 
     print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
     print, '          Calorimeter Bar Energy attenuation                '
@@ -2284,21 +2338,37 @@ for ifile=0, n_fits-1 do begin
     j=0l
     while (1) do begin
       where_event_eq = where(event_id_cal EQ event_id_cal(j))
-
       N_trig_cal = N_trig_cal + 1
 
       vol_id_temp_cal = vol_id_cal(where_event_eq)
       moth_id_temp_cal = moth_id_cal(where_event_eq)
       bar_ene_temp = bar_ene(where_event_eq)
+      trk_id_temp_cal = trk_id_cal(where_event_eq)
       child_id_temp_cal = child_id_cal(where_event_eq)
       proc_id_temp_cal = proc_id_cal(where_event_eq)
       gtime_temp_cal = gtime_ent_cal(where_event_eq)
 
+      where_pair = where((child_id_temp_cal EQ 1) and (proc_id_temp_cal EQ 7) and (trk_id_temp_cal LE 3))
+      where_compton = where((child_id_temp_cal EQ 1) and (proc_id_temp_cal EQ 3) and (trk_id_temp_cal LE 2))
+      if (where_pair(0) NE -1) then begin
+        gtime_pair = gtime_temp_cal[where_pair]
+        ispair = 1
+      endif else begin
+        ispair = 0
+      endelse
+      if (where_compton(0) NE -1) then begin
+        gtime_compton = gtime_temp_cal[where_compton]
+        iscompton = 1
+      endif else begin
+        iscompton = 0
+      endelse
+
+      if ((ispair) and (iscompton)) then begin
+        if (gtime_pair(0) LT gtime_compton(0)) then iscompton = 0
+        if (gtime_compton(0) LT gtime_pair(0)) then ispair = 0
+      endif
+      
       r = 0l
-      gtime_ref = 10.^9.
-      ispair = 0
-      iscompton = 0
-      isprimary = 0
       while(1) do begin
         ispair_vol = 0
         iscompton_vol = 0
@@ -2318,55 +2388,47 @@ for ifile=0, n_fits-1 do begin
           ; if one of hits in the same volume is a compton the summed event is flagged as 2
           ; hits generated by the primary are flagged as 3
           all_child = child_id_temp_cal(where_vol_eq)
+          all_trk = trk_id_temp_cal(where_vol_eq)
           all_proc = proc_id_temp_cal(where_vol_eq)
           all_gtime = gtime_temp_cal(where_vol_eq)
-
-          where_pair = where((all_child EQ 1) and (all_proc EQ 7))
-          if (where_pair(0) NE -1) then begin
-            if (all_gtime[where_pair[0]] LT gtime_ref) then begin
-               pair_flag_tot_cal = [pair_flag_tot_cal, 1]
-               gtime_ref = all_gtime[where_pair[0]]
-               gtime_pair = all_gtime[where_pair[0]]
-               ispair = 1
-               ispair_vol
-            endif
+      
+          where_pair_vol = where((all_child EQ 1) and (all_proc EQ 7) and (all_trk LE 3))
+          where_compton_vol = where((all_child EQ 1) and (all_proc EQ 3) and (all_trk LE 2))
+          if ((where_pair_vol(0) NE -1) and (ispair)) then begin
+              pair_flag_tot_cal = [pair_flag_tot_cal, 1]
+              ispair_vol = 1
           endif
-          where_compton = where((all_child EQ 1) and (all_proc EQ 3))
-          if (where_compton(0) NE -1) then begin
-            if (all_gtime[where_compton[0]] LT gtime_ref) then begin
-               pair_flag_tot_cal = [pair_flag_tot_cal, 2]
-               gtime_ref = all_gtime[where_compton[0]]
-               gtime_compton = all_gtime[where_compton[0]]
-               iscompton = 1
-               iscompton_vol = 1
-            endif
+          if ((where_compton_vol(0) NE -1) and (iscompton)) then begin
+              pair_flag_tot_cal = [pair_flag_tot_cal, 2]
+              iscompton_vol = 1
           endif
           where_primary = where(all_child EQ 0)
           if ((ispair) and (not ispair_vol)) then begin
             if (where_primary(0) NE -1) then begin
-              if (all_gtime[where_primary[0]] GT gtime_pair) then begin
+              if (all_gtime[where_primary[0]] LT gtime_pair(0)) then begin
                 pair_flag_tot_cal = [pair_flag_tot_cal, 3]
-                isprimary = 1
                 isprimary_vol = 1
               endif
             endif
           endif
           if ((iscompton) and (not iscompton_vol)) then begin
             if (where_primary(0) NE -1) then begin
-              if (all_gtime[where_primary[0]] GT gtime_compton) then begin
-                pair_flag_tot_cal = [pair_flag_tot_cal, 3]
-                isprimary = 1
+              if (all_gtime[where_primary[0]] GT gtime_compton(0)) then begin
+                pair_flag_tot_cal = [pair_flag_tot_cal, 4]
                 isprimary_vol = 1
               endif
             endif
           endif
-          if ((not ispair_vol) and (not iscompton_vol) and (not isprimary_vol)) then pair_flag_tot_cal = [pair_flag_tot_cal, 0]
-          
+          if ((not ispair_vol) and (not iscompton_vol) and (not isprimary_vol)) then begin
+            pair_flag_tot_cal = [pair_flag_tot_cal, 0]
+          endif
         endif
+        
         if (where_other_vol(0) NE -1) then begin
           vol_id_temp_cal = vol_id_temp_cal(where_other_vol)
           moth_id_temp_cal = moth_id_temp_cal(where_other_vol)
           bar_ene_temp = bar_ene_temp(where_other_vol)
+          trk_id_temp_cal = trk_id_temp_cal(where_other_vol)
           child_id_temp_cal = child_id_temp_cal(where_other_vol)
           proc_id_temp_cal = proc_id_temp_cal(where_other_vol)
           gtime_temp_cal = gtime_temp_cal(where_other_vol)
@@ -2379,7 +2441,7 @@ for ifile=0, n_fits-1 do begin
       endif else break
     endwhile
 
-
+    
     if (n_elements(event_id_tot_cal) GT 1) then begin
       event_id_tot_cal = event_id_tot_cal[1:*]
       vol_id_tot_cal = vol_id_tot_cal[1:*]
@@ -2388,8 +2450,8 @@ for ifile=0, n_fits-1 do begin
       bar_ene_tot = bar_ene_tot[1:*]
       pair_flag_tot_cal = pair_flag_tot_cal[1:*]
     endif
-
-   
+    
+    ; all calorimeter events
     CREATE_STRUCT, calInput_flag, 'input_cal_eastrogam', ['EVT_ID', 'BAR_ID', 'BAR_ENERGY', 'PAIR_FLAG'], $
       'I,I,F20.15,I', DIMEN = n_elements(event_id_tot_cal)
     calInput_flag.EVT_ID = event_id_tot_cal
@@ -2406,6 +2468,52 @@ for ifile=0, n_fits-1 do begin
       'Energy unit = GeV']
 
     MWRFITS, calInput_flag, outdir+'/G4.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_calInput_flag, /create
+
+    event_id_tot_cal_compton = event_id_tot_cal[where((pair_flag_tot_cal EQ 2) or (pair_flag_tot_cal EQ 4))]
+    bar_id_tot_compton = bar_id_tot[where((pair_flag_tot_cal EQ 2) or (pair_flag_tot_cal EQ 4))]
+    bar_ene_tot_compton = bar_ene_tot[where((pair_flag_tot_cal EQ 2) or (pair_flag_tot_cal EQ 4))]
+    pair_flag_tot_cal_compton = pair_flag_tot_cal[where((pair_flag_tot_cal EQ 2) or (pair_flag_tot_cal EQ 4))]
+    
+    ; COMPTON calorimeter events
+    CREATE_STRUCT, calInput_compton, 'input_cal_eastrogam_compton', ['EVT_ID', 'BAR_ID', 'BAR_ENERGY', 'PAIR_FLAG'], $
+      'I,I,F20.15,I', DIMEN = n_elements(event_id_tot_cal_compton)
+    calInput_compton.EVT_ID = event_id_tot_cal_compton
+    calInput_compton.BAR_ID = bar_id_tot_compton
+    calInput_compton.BAR_ENERGY = bar_ene_tot_compton
+    calInput_compton.PAIR_FLAG = pair_flag_tot_cal_compton
+
+
+    hdr_calInput_compton = ['COMMENT  eASTROGAM V'+astrogam_version+' Geant4 simulation', $
+      'N_in     = '+strtrim(string(N_in),1), $
+      'Energy     = '+ene_type, $
+      'Theta     = '+strtrim(string(theta_type),1), $
+      'Phi     = '+strtrim(string(phi_type),1), $
+      'Energy unit = GeV']
+
+    MWRFITS, calInput_compton, outdir+'/G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_calInput_compton, /create
+
+    event_id_tot_cal_pair = event_id_tot_cal[where((pair_flag_tot_cal EQ 1) or (pair_flag_tot_cal EQ 3))]
+    bar_id_tot_pair = bar_id_tot[where((pair_flag_tot_cal EQ 1) or (pair_flag_tot_cal EQ 3))]
+    bar_ene_tot_pair = bar_ene_tot[where((pair_flag_tot_cal EQ 1) or (pair_flag_tot_cal EQ 3))]
+    pair_flag_tot_cal_pair = pair_flag_tot_cal[where((pair_flag_tot_cal EQ 1) or (pair_flag_tot_cal EQ 3))]
+
+    ; COMPTON calorimeter events
+    CREATE_STRUCT, calInput_pair, 'input_cal_eastrogam_pair', ['EVT_ID', 'BAR_ID', 'BAR_ENERGY', 'PAIR_FLAG'], $
+      'I,I,F20.15,I', DIMEN = n_elements(event_id_tot_cal_pair)
+    calInput_pair.EVT_ID = event_id_tot_cal_pair
+    calInput_pair.BAR_ID = bar_id_tot_pair
+    calInput_pair.BAR_ENERGY = bar_ene_tot_pair
+    calInput_pair.PAIR_FLAG = pair_flag_tot_cal_pair
+
+
+    hdr_calInput_pair = ['COMMENT  eASTROGAM V'+astrogam_version+' Geant4 simulation', $
+      'N_in     = '+strtrim(string(N_in),1), $
+      'Energy     = '+ene_type, $
+      'Theta     = '+strtrim(string(theta_type),1), $
+      'Phi     = '+strtrim(string(phi_type),1), $
+      'Energy unit = GeV']
+
+    MWRFITS, calInput_pair, outdir+'/G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_calInput_pair, /create
 
     event_id_tot_cal_sum = -1l
     bar_ene_tot_sum = -1.
@@ -2446,6 +2554,38 @@ for ifile=0, n_fits-1 do begin
 
   if (ac_flag EQ 1) then begin
 
+    print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+    print, '                          AC'
+    print, '                    write raw data                 '
+    print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
+    
+    CREATE_STRUCT, rawData_ac, 'rawData_ac', ['EVT_ID', 'VOL_ID', 'MOTH_ID', 'E_DEP', 'X_ENT', 'Y_ENT', 'Z_ENT', 'X_EXIT', 'Y_EXIT', 'Z_EXIT', 'PART_ID', 'TRK_ID', 'CHILD_ID', 'PROC_ID'], $
+      'I,I,I,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,I,I,I,I', DIMEN = n_elements(event_id_ac)
+    rawData_ac.EVT_ID = event_id_ac
+    rawData_ac.VOL_ID = vol_id_ac
+    rawData_ac.MOTH_ID = moth_id_ac
+    rawData_ac.E_DEP = energy_dep_ac
+    rawData_ac.X_ENT = ent_x_ac
+    rawData_ac.Y_ENT = ent_y_ac
+    rawData_ac.Z_ENT = ent_z_ac
+    rawData_ac.X_EXIT = exit_x_ac
+    rawData_ac.Y_EXIT = exit_y_ac
+    rawData_ac.Z_EXIT = exit_z_ac
+    rawData_ac.PART_ID = part_id_ac
+    rawData_ac.TRK_ID = trk_id_ac
+    rawData_ac.CHILD_ID = child_id_ac
+    rawData_ac.PROC_ID = proc_id_ac
+
+
+    hdr_rawData_ac = ['COMMENT  eASTROGAM '+astrogam_version+' Geant4 simulation', $
+      'N_in     = '+strtrim(string(N_in),1), $
+      'Energy     = '+ene_type, $
+      'Theta     = '+strtrim(string(theta_type),1), $
+      'Phi     = '+strtrim(string(phi_type),1), $
+      'Position unit = cm', $
+      'Energy unit = keV']
+
+    MWRFITS, rawData_ac, outdir+'/G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_rawData_ac, /create
 
     print, '%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%'
     print, '                          AC'
@@ -2469,15 +2609,32 @@ for ifile=0, n_fits-1 do begin
       vol_id_temp_ac = vol_id_ac(where_event_eq)
       moth_id_temp_ac = moth_id_ac(where_event_eq)
       energy_dep_temp_ac = energy_dep_ac(where_event_eq)
+      trk_id_temp_ac = trk_id_ac(where_event_eq)
       child_id_temp_ac = child_id_ac(where_event_eq)
       proc_id_temp_ac = proc_id_ac(where_event_eq)
       gtime_temp_ac = gtime_ent_ac(where_event_eq)
 
+      where_pair = where((child_id_temp_ac EQ 1) and (proc_id_temp_ac EQ 7) and (trk_id_temp_ac LE 3))
+      where_compton = where((child_id_temp_ac EQ 1) and (proc_id_temp_ac EQ 3) and (trk_id_temp_ac LE 2))
+      if (where_pair(0) NE -1) then begin
+        gtime_pair = gtime_temp_ac[where_pair]
+        ispair = 1
+      endif else begin
+        ispair = 0
+      endelse
+      if (where_compton(0) NE -1) then begin
+        gtime_compton = gtime_temp_ac[where_compton]
+        iscompton = 1
+      endif else begin
+        iscompton = 0
+      endelse
+
+      if ((ispair) and (iscompton)) then begin
+        if (gtime_pair(0) LT gtime_compton(0)) then iscompton = 0
+        if (gtime_compton(0) LT gtime_pair(0)) then ispair = 0
+      endif
+      
       r = 0l
-      gtime_ref = 10.^9.
-      ispair = 0
-      iscompton = 0
-      isprimary = 0
       while(1) do begin
         ispair_vol = 0
         iscompton_vol = 0
@@ -2494,62 +2651,53 @@ for ifile=0, n_fits-1 do begin
         ; if one of hits in the same volume is a compton the summed event is flagged as 2
         ; hits generated by the primary are flagged as 3
         all_child = child_id_temp_ac(where_vol_eq)
+        all_trk = trk_id_temp_ac(where_vol_eq)
         all_proc = proc_id_temp_ac(where_vol_eq)
         all_gtime = gtime_temp_ac(where_vol_eq)
         
-        where_pair = where((all_child EQ 1) and (all_proc EQ 7))
-        if (where_pair(0) NE -1) then begin
-          if (all_gtime[where_pair[0]] LT gtime_ref) then begin
-             pair_flag_tot_ac = [pair_flag_tot_ac, 1]
-             gtime_ref = all_gtime[where_pair[0]]
-             gtime_pair = all_gtime[where_pair[0]]
-             ispair = 1
-             ispair_vol = 1
-          endif
+        where_pair_vol = where((all_child EQ 1) and (all_proc EQ 7) and (all_trk LE 3))
+        where_compton_vol = where((all_child EQ 1) and (all_proc EQ 3) and (all_trk LE 2))
+        if ((where_pair_vol(0) NE -1) and (ispair)) then begin
+            pair_flag_tot_ac = [pair_flag_tot_ac, 1]
+            ispair_vol = 1
         endif
-        where_compton = where((all_child EQ 1) and (all_proc EQ 3))
-        if (where_compton(0) NE -1) then begin
-          if (all_gtime[where_compton[0]] LT gtime_ref) then begin
-             pair_flag_tot_ac = [pair_flag_tot_ac, 2]
-             gtime_ref = all_gtime[where_compton[0]]
-             gtime_compton = all_gtime[where_compton[0]]
-             iscompton = 1
-             iscompton_vol = 1
-          endif
+        if ((where_compton_vol(0) NE -1) and (iscompton)) then begin
+            pair_flag_tot_ac = [pair_flag_tot_ac, 2]
+            iscompton_vol = 1
         endif
         where_primary = where(all_child EQ 0)
         if ((ispair) and (not ispair_vol)) then begin
           if (where_primary(0) NE -1) then begin
-            if (all_gtime[where_primary[0]] GT gtime_pair) then begin
+            if (all_gtime[where_primary[0]] LT gtime_pair(0)) then begin
               pair_flag_tot_ac = [pair_flag_tot_ac, 3]
-              isprimary = 1
               isprimary_vol = 1
             endif
           endif
         endif
         if ((iscompton) and (not iscompton_vol)) then begin
           if (where_primary(0) NE -1) then begin
-            if (all_gtime[where_primary[0]] GT gtime_compton) then begin
-              if not (isprimary_vol) then begin
-                pair_flag_tot_ac = [pair_flag_tot_ac, 3]
-              endif
-              isprimary = 1
+            if (all_gtime[where_primary[0]] GT gtime_compton(0)) then begin
+              pair_flag_tot_ac = [pair_flag_tot_ac, 4]
               isprimary_vol = 1
             endif
           endif
         endif
-        if ((not ispair_vol) and (not iscompton_vol) and (not isprimary_vol)) then pair_flag_tot_ac = [pair_flag_tot_ac, 0]
+        if ((not ispair_vol) and (not iscompton_vol) and (not isprimary_vol)) then begin
+          pair_flag_tot_ac = [pair_flag_tot_ac, 0]
+        endif
           
         if (where_other_vol(0) NE -1) then begin
           vol_id_temp_ac = vol_id_temp_ac(where_other_vol)
           moth_id_temp_ac = moth_id_temp_ac(where_other_vol)
           energy_dep_temp_ac = energy_dep_temp_ac(where_other_vol)
           child_id_temp_ac = child_id_temp_ac(where_other_vol)
+          trk_id_temp_ac = trk_id_temp_ac(where_other_vol)
           proc_id_temp_ac = proc_id_temp_ac(where_other_vol)
           gtime_temp_ac = gtime_temp_ac(where_other_vol)
         endif else break
       endwhile
 
+      if n_elements(event_id_tot_ac) NE n_elements(pair_flag_tot_ac) then print, 'Problem in AC pair/compton discrimination'
       N_event_eq = n_elements(where_event_eq)
       if where_event_eq(N_event_eq-1) LT (n_elements(event_id_ac)-1) then begin
         j = where_event_eq(N_event_eq-1)+1
@@ -2620,6 +2768,53 @@ for ifile=0, n_fits-1 do begin
 
     MWRFITS, acInput_flag, outdir+'/G4.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_acInput_flag, /create
     
+    event_id_tot_ac_compton = event_id_tot_ac[where((pair_flag_tot_cal EQ 2) or (pair_flag_tot_cal EQ 4))]
+    AC_panel_compton = AC_panel[where((pair_flag_tot_cal EQ 2) or (pair_flag_tot_cal EQ 4))]
+    AC_subpanel_compton = AC_subpanel[where((pair_flag_tot_cal EQ 2) or (pair_flag_tot_cal EQ 4))]
+    energy_dep_tot_ac_compton = energy_dep_tot_ac[where((pair_flag_tot_cal EQ 2) or (pair_flag_tot_cal EQ 4))]
+    pair_flag_tot_ac_compton = pair_flag_tot_ac[where((pair_flag_tot_cal EQ 2) or (pair_flag_tot_cal EQ 4))]
+
+    CREATE_STRUCT, acInput_compton, 'input_ac_dhsim_flag', ['EVT_ID', 'AC_PANEL', 'AC_SUBPANEL', 'E_DEP', 'PAIR_FLAG'], $
+      'I,A,I,F20.15,I', DIMEN = n_elements(event_id_tot_ac_compton)
+    acInput_compton.EVT_ID = event_id_tot_ac_compton
+    acInput_compton.AC_PANEL = AC_panel_compton
+    acInput_compton.AC_SUBPANEL = AC_subpanel_compton
+    acInput_compton.E_DEP = energy_dep_tot_ac_compton
+    acInput_compton.PAIR_FLAG = pair_flag_tot_ac_compton
+
+
+    hdr_acInput_compton = ['COMMENT  eASTROGAM '+astrogam_version+' Geant4 simulation', $
+      'N_in     = '+strtrim(string(N_in),1), $
+      'Energy     = '+ene_type, $
+      'Theta     = '+strtrim(string(theta_type),1), $
+      'Phi     = '+strtrim(string(phi_type),1), $
+      'Energy unit = GeV']
+
+    MWRFITS, acInput_compton, outdir+'/G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_acInput_compton, /create
+
+    event_id_tot_ac_pair = event_id_tot_ac[where((pair_flag_tot_cal EQ 1) or (pair_flag_tot_cal EQ 3))]
+    AC_panel_pair = AC_panel[where((pair_flag_tot_cal EQ 1) or (pair_flag_tot_cal EQ 3))]
+    AC_subpanel_pair = AC_subpanel[where((pair_flag_tot_cal EQ 1) or (pair_flag_tot_cal EQ 3))]
+    energy_dep_tot_ac_pair = energy_dep_tot_ac[where((pair_flag_tot_cal EQ 1) or (pair_flag_tot_cal EQ 3))]
+    pair_flag_tot_ac_pair = pair_flag_tot_ac[where((pair_flag_tot_cal EQ 1) or (pair_flag_tot_cal EQ 3))]
+
+    CREATE_STRUCT, acInput_pair, 'input_ac_dhsim_flag', ['EVT_ID', 'AC_PANEL', 'AC_SUBPANEL', 'E_DEP', 'PAIR_FLAG'], $
+      'I,A,I,F20.15,I', DIMEN = n_elements(event_id_tot_ac_pair)
+    acInput_pair.EVT_ID = event_id_tot_ac_pair
+    acInput_pair.AC_PANEL = AC_panel_pair
+    acInput_pair.AC_SUBPANEL = AC_subpanel_pair
+    acInput_pair.E_DEP = energy_dep_tot_ac_pair
+    acInput_pair.PAIR_FLAG = pair_flag_tot_ac_pair
+
+
+    hdr_acInput_pair = ['COMMENT  eASTROGAM '+astrogam_version+' Geant4 simulation', $
+      'N_in     = '+strtrim(string(N_in),1), $
+      'Energy     = '+ene_type, $
+      'Theta     = '+strtrim(string(theta_type),1), $
+      'Phi     = '+strtrim(string(phi_type),1), $
+      'Energy unit = GeV']
+
+    MWRFITS, acInput_pair, outdir+'/G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_acInput_pair, /create
 
   endif
 endfor
