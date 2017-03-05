@@ -258,7 +258,7 @@ endif
 
 ; Reading the FITS files
 
-; G4.RAW.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+; G4.RAW.TRACKER.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
 rawData_event_id = -1l
 rawData_tray_id =  -1l
 rawData_plane_id =  -1l
@@ -272,8 +272,45 @@ rawData_exit_x =  -1.
 rawData_exit_y =  -1.
 rawData_exit_z =  -1.
 rawData_part_id =  -1
-rawData_child_id =  -1
-rawData_proc_id =  -1
+rawData_trk_id =  -1l
+rawData_child_id =  -1l
+rawData_proc_id =  -1l
+
+if (cal_flag EQ 1) then begin
+  ; G4.RAW.CAL.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+  rawData_event_id_cal = -1l
+  rawData_vol_id_cal =  -1l
+  rawData_moth_id_cal =  -1l
+  rawData_energy_dep_cal =  -1.
+  rawData_ent_x_cal =  -1.
+  rawData_ent_y_cal =  -1.
+  rawData_ent_z_cal =  -1.
+  rawData_exit_x_cal =  -1.
+  rawData_exit_y_cal =  -1.
+  rawData_exit_z_cal =  -1.
+  rawData_part_id_cal =  -1
+  rawData_trk_id_cal =  -1l
+  rawData_child_id_cal =  -1l
+  rawData_proc_id_cal =  -1l
+endif
+
+if (ac_flag EQ 1) then begin
+  ; G4.RAW.AC.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+  rawData_event_id_ac = -1l
+  rawData_vol_id_ac =  -1l
+  rawData_moth_id_ac =  -1l
+  rawData_energy_dep_ac =  -1.
+  rawData_ent_x_ac =  -1.
+  rawData_ent_y_ac =  -1.
+  rawData_ent_z_ac =  -1.
+  rawData_exit_x_ac =  -1.
+  rawData_exit_y_ac =  -1.
+  rawData_exit_z_ac =  -1.
+  rawData_part_id_ac =  -1
+  rawData_trk_id_ac =  -1l
+  rawData_child_id_ac =  -1l
+  rawData_proc_id_ac =  -1l
+endif
 
 if (isStrip) then begin
 
@@ -435,21 +472,47 @@ endelse
 
 
 ; G4.CAL.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
-calInput_event_id_tot_cal = -1l
+calInput_event_id_tot = -1l
 calInput_bar_id_tot = -1l
 calInput_bar_ene_tot = -1.
 calInput_pair_flag_tot = -1l
 
+; G4.CAL.COMPTON.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+calInput_event_id_tot_compton = -1l
+calInput_bar_id_tot_compton = -1l
+calInput_bar_ene_tot_compton = -1.
+calInput_pair_flag_tot_compton = -1l
+
+; G4.CAL.PAIR.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+calInput_event_id_tot_pair = -1l
+calInput_bar_id_tot_pair = -1l
+calInput_bar_ene_tot_pair = -1.
+calInput_pair_flag_tot_pair = -1l
+
 ; SUM.CAL.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
-calInputSum_event_id_tot_cal = -1l
+calInputSum_event_id_tot = -1l
 calInputSum_bar_ene_tot = -1.
 
 ; G4.AC.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
-acInput_event_id_tot_ac = -1l
+acInput_event_id_tot = -1l
 acInput_AC_panel = ''
 acInput_AC_subpanel = -1l
-acInput_energy_dep_tot_ac = -1.
+acInput_energy_dep_tot = -1.
 acInput_pair_flag_tot = -1.
+
+; G4.AC.COMPTON.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+acInput_event_id_tot_compton = -1l
+acInput_AC_panel_compton = ''
+acInput_AC_subpanel_compton = -1l
+acInput_energy_dep_tot_compton = -1.
+acInput_pair_flag_tot_compton = -1.
+
+; G4.AC.PAIR.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+acInput_event_id_tot_pair = -1l
+acInput_AC_panel_pair = ''
+acInput_AC_subpanel_pair = -1l
+acInput_energy_dep_tot_pair = -1.
+acInput_pair_flag_tot_pair = -1.
 
 filepath = './eASTROGAM'+astrogam_version+sdir+'/theta'+strtrim(string(theta_type),1)+'/'+stripDir+py_dir+'/'+sim_name+'/'+ene_type+'MeV/'+strtrim(string(N_in),1)+part_type+dir_cal+dir_passive+'/'+strtrim(string(energy_thresh),1)+'keV/'
 print, 'LEVEL0 file path: ', filepath
@@ -530,7 +593,7 @@ for ifile=0, n_files-1 do begin
      aa_kalman_compton_pair = [aa_kalman_compton_pair, c11]
    endif
 
-    filenamefits_raw = filepath+'G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits'
+    filenamefits_raw = filepath+'G4.RAW.TRACKER.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits'
     print, filenamefits_raw
     struct_raw = mrdfits(filenamefits_raw,$
       1, $
@@ -550,9 +613,63 @@ for ifile=0, n_files-1 do begin
     rawData_exit_y = [rawData_exit_y, struct_raw.Y_EXIT]
     rawData_exit_z = [rawData_exit_z, struct_raw.Z_EXIT]
     rawData_part_id = [rawData_part_id, struct_raw.PART_ID]
+    rawData_trk_id = [rawData_trk_id, struct_raw.TRK_ID]
     rawData_child_id = [rawData_child_id, struct_raw.CHILD_ID]
     rawData_proc_id = [rawData_proc_id, struct_raw.PROC_ID]
 
+    if (cal_flag EQ 1) then begin
+      filenamefits_raw_cal = filepath+'G4.RAW.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits'
+      print, filenamefits_raw_cal
+      check_file = file_test(filenamefits_raw_cal)
+      if (check_file) then begin
+        struct_raw_cal = mrdfits(filenamefits_raw_cal,$
+          1, $
+          structyp = 'raw_cal', $
+          /unsigned)
+    
+        rawData_event_id_cal = [rawData_event_id_cal, struct_raw_cal.EVT_ID]
+        rawData_vol_id_cal = [rawData_vol_id_cal, struct_raw_cal.VOL_ID]
+        rawData_moth_id_cal = [rawData_moth_id_cal, struct_raw_cal.MOTH_ID]
+        rawData_energy_dep_cal = [rawData_energy_dep_cal, struct_raw_cal.E_DEP]
+        rawData_ent_x_cal = [rawData_ent_x_cal, struct_raw_cal.X_ENT]
+        rawData_ent_y_cal = [rawData_ent_y_cal, struct_raw_cal.Y_ENT]
+        rawData_ent_z_cal = [rawData_ent_z_cal, struct_raw_cal.Z_ENT]
+        rawData_exit_x_cal = [rawData_exit_x_cal, struct_raw_cal.X_EXIT]
+        rawData_exit_y_cal = [rawData_exit_y_cal, struct_raw_cal.Y_EXIT]
+        rawData_exit_z_cal = [rawData_exit_z_cal, struct_raw_cal.Z_EXIT]
+        rawData_part_id_cal = [rawData_part_id_cal, struct_raw_cal.PART_ID]
+        rawData_trk_id_cal = [rawData_trk_id_cal, struct_raw_cal.TRK_ID]
+        rawData_child_id_cal = [rawData_child_id_cal, struct_raw_cal.CHILD_ID]
+        rawData_proc_id_cal = [rawData_proc_id_cal, struct_raw_cal.PROC_ID]
+      endif
+    endif
+    if (ac_flag EQ 1) then begin
+      filenamefits_raw_AC = filepath+'G4.RAW.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits'
+      print, filenamefits_raw_AC
+      check_file = file_test(filenamefits_raw_AC)
+      if (check_file) then begin
+        struct_raw_AC = mrdfits(filenamefits_raw_AC,$
+          1, $
+          structyp = 'raw_AC', $
+          /unsigned)
+    
+        rawData_event_id_AC = [rawData_event_id_AC, struct_raw_AC.EVT_ID]
+        rawData_vol_id_AC = [rawData_vol_id_AC, struct_raw_AC.VOL_ID]
+        rawData_moth_id_AC = [rawData_moth_id_AC, struct_raw_AC.MOTH_ID]
+        rawData_energy_dep_AC = [rawData_energy_dep_AC, struct_raw_AC.E_DEP]
+        rawData_ent_x_AC = [rawData_ent_x_AC, struct_raw_AC.X_ENT]
+        rawData_ent_y_AC = [rawData_ent_y_AC, struct_raw_AC.Y_ENT]
+        rawData_ent_z_AC = [rawData_ent_z_AC, struct_raw_AC.Z_ENT]
+        rawData_exit_x_AC = [rawData_exit_x_AC, struct_raw_AC.X_EXIT]
+        rawData_exit_y_AC = [rawData_exit_y_AC, struct_raw_AC.Y_EXIT]
+        rawData_exit_z_AC = [rawData_exit_z_AC, struct_raw_AC.Z_EXIT]
+        rawData_part_id_AC = [rawData_part_id_AC, struct_raw_AC.PART_ID]
+        rawData_trk_id_AC = [rawData_trk_id_AC, struct_raw_AC.TRK_ID]
+        rawData_child_id_AC = [rawData_child_id_AC, struct_raw_AC.CHILD_ID]
+        rawData_proc_id_AC = [rawData_proc_id_AC, struct_raw_AC.PROC_ID]
+      endif
+    endif
+    
     filenamefits_l0 = filepath+'L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+STRMID(STRTRIM(STRING(N_IN),1),0,10)+part_type+'.'+ene_type+'MeV.'+STRMID(STRTRIM(STRING(THETA_TYPE),1),0,10)+'.'+STRMID(STRTRIM(STRING(PHI_TYPE),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits'
     struct_l0 = mrdfits(filenamefits_l0,$
       1, $
@@ -610,38 +727,103 @@ for ifile=0, n_files-1 do begin
   if (cal_flag EQ 1) then begin
     filenamefits_cal = filepath+'G4.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits'
     print, filenamefits_cal
-    struct_cal = mrdfits(filenamefits_cal,$
-      1, $
-      structyp = 'cal', $
-      /unsigned)
+    check_file = file_test(filenamefits_cal)
+    if (check_file) then begin
+      struct_cal = mrdfits(filenamefits_cal,$
+        1, $
+        structyp = 'cal', $
+        /unsigned)
+  
+      calInput_event_id_tot = [calInput_event_id_tot, struct_cal.EVT_ID]
+      calInput_bar_id_tot = [calInput_bar_id_tot, struct_cal.BAR_ID]
+      calInput_bar_ene_tot = [calInput_bar_ene_tot, struct_cal.BAR_ENERGY]
+      calInput_pair_flag_tot = [calInput_pair_flag_tot, struct_cal.PAIR_FLAG]
+  
+      filenamefits_cal_compton = filepath+'G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits'
+      print, filenamefits_cal_compton
+      check_file = file_test(filenamefits_cal_compton)
+      if (check_file) then begin
+        struct_cal = mrdfits(filenamefits_cal_compton,$
+          1, $
+          structyp = 'cal_compton', $
+          /unsigned)
+    
+        calInput_event_id_tot_compton = [calInput_event_id_tot_compton, struct_cal.EVT_ID]
+        calInput_bar_id_tot_compton = [calInput_bar_id_tot_compton, struct_cal.BAR_ID]
+        calInput_bar_ene_tot_compton = [calInput_bar_ene_tot_compton, struct_cal.BAR_ENERGY]
+        calInput_pair_flag_tot_compton = [calInput_pair_flag_tot_compton, struct_cal.PAIR_FLAG]
+      endif     
+      
+      filenamefits_cal_pair = filepath+'G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits'
+      print, filenamefits_cal_pair
+      check_file = file_test(filenamefits_cal_pair)
+      if (check_file) then begin
+        struct_cal = mrdfits(filenamefits_cal_pair,$
+          1, $
+          structyp = 'cal_pair', $
+          /unsigned)
+    
+        calInput_event_id_tot_pair = [calInput_event_id_tot_pair, struct_cal.EVT_ID]
+        calInput_bar_id_tot_pair = [calInput_bar_id_tot_pair, struct_cal.BAR_ID]
+        calInput_bar_ene_tot_pair = [calInput_bar_ene_tot_pair, struct_cal.BAR_ENERGY]
+        calInput_pair_flag_tot_pair = [calInput_pair_flag_tot_pair, struct_cal.PAIR_FLAG]
+      endif
 
-    calInput_event_id_tot_cal = [calInput_event_id_tot_cal, struct_cal.EVT_ID]
-    calInput_bar_id_tot = [calInput_bar_id_tot, struct_cal.BAR_ID]
-    calInput_bar_ene_tot = [calInput_bar_ene_tot, struct_cal.BAR_ENERGY]
-    calInput_pair_flag_tot = [calInput_pair_flag_tot, struct_cal.PAIR_FLAG]
-
-
-    filenamefits_cal_sum = filepath+'SUM.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits'
-    struct_calsum = mrdfits(filenamefits_cal_sum,$
-      1, $
-      structyp = 'calsum', $
-      /unsigned)
-
-    calInputSum_event_id_tot_cal = [calInput_event_id_tot_cal, struct_calsum.EVT_ID]
-    calInputSum_bar_ene_tot = [calInput_bar_ene_tot, struct_calsum.BAR_ENERGY]
+      filenamefits_cal_sum = filepath+'SUM.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits'
+      struct_calsum = mrdfits(filenamefits_cal_sum,$
+        1, $
+        structyp = 'calsum', $
+        /unsigned)
+  
+      calInputSum_event_id_tot = [calInput_event_id_tot, struct_calsum.EVT_ID]
+      calInputSum_bar_ene_tot = [calInput_bar_ene_tot, struct_calsum.BAR_ENERGY]
+    endif
   endif
   if (ac_flag EQ 1) then begin
     filenamefits_ac = filepath+'G4.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits'
-    struct_ac = mrdfits(filenamefits_ac,$
-      1, $
-      structyp = 'ac', $
-      /unsigned)
-
-    acInput_event_id_tot_ac = [acInput_event_id_tot_ac, struct_ac.EVT_ID]
-    acInput_AC_panel = [acInput_AC_panel, struct_ac.AC_PANEL]
-    acInput_AC_subpanel = [acInput_AC_subpanel, struct_ac.AC_SUBPANEL]
-    acInput_energy_dep_tot_ac = [acInput_energy_dep_tot_ac, struct_ac.E_DEP]
-    acInput_pair_flag_tot = [acInput_pair_flag_tot, struct_ac.PAIR_FLAG]
+    check_file = file_test(filenamefits_ac)
+    if (check_file) then begin
+      struct_ac = mrdfits(filenamefits_ac,$
+        1, $
+        structyp = 'ac', $
+        /unsigned)
+  
+      acInput_event_id_tot = [acInput_event_id_tot, struct_ac.EVT_ID]
+      acInput_AC_panel = [acInput_AC_panel, struct_ac.AC_PANEL]
+      acInput_AC_subpanel = [acInput_AC_subpanel, struct_ac.AC_SUBPANEL]
+      acInput_energy_dep_tot = [acInput_energy_dep_tot, struct_ac.E_DEP]
+      acInput_pair_flag_tot = [acInput_pair_flag_tot, struct_ac.PAIR_FLAG]
+  
+      filenamefits_ac_compton = filepath+'G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits'
+      check_file = file_test(filenamefits_ac_compton)
+      if (check_file) then begin
+        struct_ac = mrdfits(filenamefits_ac_compton,$
+          1, $
+          structyp = 'ac_compton', $
+          /unsigned)
+    
+        acInput_event_id_tot_compton = [acInput_event_id_tot_compton, struct_ac.EVT_ID]
+        acInput_AC_panel_compton = [acInput_AC_panel_compton, struct_ac.AC_PANEL]
+        acInput_AC_subpanel_compton = [acInput_AC_subpanel_compton, struct_ac.AC_SUBPANEL]
+        acInput_energy_dep_tot_compton = [acInput_energy_dep_tot_compton, struct_ac.E_DEP]
+        acInput_pair_flag_tot_compton = [acInput_pair_flag_tot_compton, struct_ac.PAIR_FLAG]
+      endif
+      
+      filenamefits_ac_pair = filepath+'G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits'
+      check_file = file_test(filenamefits_ac_pair)
+      if (check_file) then begin
+        struct_ac = mrdfits(filenamefits_ac_pair,$
+          1, $
+          structyp = 'ac_pair', $
+          /unsigned)
+    
+        acInput_event_id_tot_pair = [acInput_event_id_tot_pair, struct_ac.EVT_ID]
+        acInput_AC_panel_pair = [acInput_AC_panel_pair, struct_ac.AC_PANEL]
+        acInput_AC_subpanel_pair = [acInput_AC_subpanel_pair, struct_ac.AC_SUBPANEL]
+        acInput_energy_dep_tot_pair = [acInput_energy_dep_tot_pair, struct_ac.E_DEP]
+        acInput_pair_flag_tot_pair = [acInput_pair_flag_tot_pair, struct_ac.PAIR_FLAG]
+      endif
+    endif
   endif
 endfor
 
@@ -721,7 +903,7 @@ if (isStrip) then begin
    ; - c11 = Pair flag (1 = pair, 0 = no pair)
 
    for r=0l, n_elements(aa_strip_event_id)-1 do begin
-     printf, lun, aa_strip_event_id(r), aa_strip_theta_in(r), aa_strip_phi_in(r), aa_strip_ene_in(r), aa_strip_plane_id(r), aa_strip_zpos(r), aa_strip_si_id(r), aa_strip_strip_id(r), aa_strip_pos(r), aa_strip_edep(r), aa_strip_pair(r), format='(I5,I5,I5,I5,I5,F10.5,I5,I5,F10.5,F10.5,I5)'
+     printf, lun, aa_strip_event_id(r), aa_strip_theta_in(r), aa_strip_phi_in(r), aa_strip_ene_in(r), aa_strip_plane_id(r), aa_strip_zpos(r), aa_strip_si_id(r), aa_strip_strip_id(r), aa_strip_pos(r), aa_strip_edep(r), aa_strip_pair(r), format='(I7,I7,I7,I7,I7,F20.7,I7,I7,F20.7,F20.7,I7)'
    endfor
 
    Free_lun, lun
@@ -745,7 +927,7 @@ if (isStrip) then begin
    ; - c11 = Pair flag (1 = pair, 0 = no pair)
 
    for r=0l, n_elements(aa_kalman_event_id)-1 do begin
-     printf, lun, aa_kalman_event_id(r), aa_kalman_theta_in(r), aa_kalman_phi_in(r), aa_kalman_ene_in(r), aa_kalman_plane_id(r), aa_kalman_zpos(r), aa_kalman_si_id(r), aa_kalman_pos(r), aa_kalman_edep(r), aa_kalman_strip_number(r), aa_kalman_pair(r), format='(I5,I5,I5,I7,I5,F10.5,I5,F10.5,F10.5,I5,I5)'
+     printf, lun, aa_kalman_event_id(r), aa_kalman_theta_in(r), aa_kalman_phi_in(r), aa_kalman_ene_in(r), aa_kalman_plane_id(r), aa_kalman_zpos(r), aa_kalman_si_id(r), aa_kalman_pos(r), aa_kalman_edep(r), aa_kalman_strip_number(r), aa_kalman_pair(r), format='(I7,I7,I7,I7,I7,F20.7,I7,F20.7,F20.7,I7,I7)'
    endfor
 
   Free_lun, lun
@@ -767,7 +949,7 @@ if (isStrip) then begin
    ; - c11 = Pair flag (1 = pair, 0 = no pair)
 
    for r=0l, n_elements(aa_kalman_pair_event_id)-1 do begin
-     printf, lun, aa_kalman_pair_event_id(r), aa_kalman_pair_theta_in(r), aa_kalman_pair_phi_in(r), aa_kalman_pair_ene_in(r), aa_kalman_pair_plane_id(r), aa_kalman_pair_zpos(r), aa_kalman_pair_si_id(r), aa_kalman_pair_pos(r), aa_kalman_pair_edep(r), aa_kalman_pair_strip_number(r), aa_kalman_pair_pair(r), format='(I5,I5,I5,I7,I5,F10.5,I5,F10.5,F10.5,I5,I5)'
+     printf, lun, aa_kalman_pair_event_id(r), aa_kalman_pair_theta_in(r), aa_kalman_pair_phi_in(r), aa_kalman_pair_ene_in(r), aa_kalman_pair_plane_id(r), aa_kalman_pair_zpos(r), aa_kalman_pair_si_id(r), aa_kalman_pair_pos(r), aa_kalman_pair_edep(r), aa_kalman_pair_strip_number(r), aa_kalman_pair_pair(r), format='(I7,I7,I7,I7,I7,F20.7,I7,F20.7,F20.7,I7,I7)'
    endfor
   Free_lun, lun
  endif
@@ -788,14 +970,14 @@ if (isStrip) then begin
    ; - c11 = Pair flag (2 = compton)
   
    for r=0l, n_elements(aa_kalman_compton_event_id)-1 do begin
-     printf, lun, aa_kalman_compton_event_id(r), aa_kalman_compton_theta_in(r), aa_kalman_compton_phi_in(r), aa_kalman_compton_ene_in(r), aa_kalman_compton_plane_id(r), aa_kalman_compton_zpos(r), aa_kalman_compton_si_id(r), aa_kalman_compton_pos(r), aa_kalman_compton_edep(r), aa_kalman_compton_strip_number(r), aa_kalman_compton_pair(r), format='(I5,I5,I5,I7,I5,F10.5,I5,F10.5,F10.5,I5,I5)'
+     printf, lun, aa_kalman_compton_event_id(r), aa_kalman_compton_theta_in(r), aa_kalman_compton_phi_in(r), aa_kalman_compton_ene_in(r), aa_kalman_compton_plane_id(r), aa_kalman_compton_zpos(r), aa_kalman_compton_si_id(r), aa_kalman_compton_pos(r), aa_kalman_compton_edep(r), aa_kalman_compton_strip_number(r), aa_kalman_compton_pair(r), format='(I7,I7,I7,I7,I7,F20.7,I7,F20.7,F20.7,I7,I7)'
    endfor
     
    Free_lun, lun
  endif
 
   ; -----> FITS files
-  ; G4.RAW.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+  ; G4.RAW.TRACKER.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
   rawData_event_id = rawData_event_id[1:*]
   rawData_tray_id =  rawData_tray_id[1:*]
   rawData_plane_id =  rawData_plane_id[1:*]
@@ -809,9 +991,44 @@ if (isStrip) then begin
   rawData_exit_y =  rawData_exit_y[1:*]
   rawData_exit_z = rawData_exit_z[1:*]
   rawData_part_id = rawData_part_id[1:*]
+  rawData_trk_id = rawData_trk_id[1:*]
   rawData_child_id = rawData_child_id[1:*]
   rawData_proc_id = rawData_proc_id[1:*]
 
+  if (cal_flag EQ 1) then begin
+    ; G4.RAW.CAL.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+    rawData_event_id_cal = rawData_event_id_cal[1:*]
+    rawData_vol_id_cal =  rawData_vol_id_cal[1:*]
+    rawData_moth_id_cal =  rawData_moth_id_cal[1:*]
+    rawData_energy_dep_cal =  rawData_energy_dep_cal[1:*]
+    rawData_ent_x_cal =  rawData_ent_x_cal[1:*]
+    rawData_ent_y_cal =  rawData_ent_y_cal[1:*]
+    rawData_ent_z_cal =  rawData_ent_z_cal[1:*]
+    rawData_exit_x_cal =  rawData_exit_x_cal[1:*]
+    rawData_exit_y_cal =  rawData_exit_y_cal[1:*]
+    rawData_exit_z_cal = rawData_exit_z_cal[1:*]
+    rawData_part_id_cal = rawData_part_id_cal[1:*]
+    rawData_trk_id_cal = rawData_trk_id_cal[1:*]
+    rawData_child_id_cal = rawData_child_id_cal[1:*]
+    rawData_proc_id_cal = rawData_proc_id_cal[1:*]
+  endif
+  if (ac_flag EQ 1) then begin
+    ; G4.RAW.AC.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+    rawData_event_id_ac = rawData_event_id_ac[1:*]
+    rawData_vol_id_ac =  rawData_vol_id_ac[1:*]
+    rawData_moth_id_ac =  rawData_moth_id_ac[1:*]
+    rawData_energy_dep_ac =  rawData_energy_dep_ac[1:*]
+    rawData_ent_x_ac =  rawData_ent_x_ac[1:*]
+    rawData_ent_y_ac =  rawData_ent_y_ac[1:*]
+    rawData_ent_z_ac =  rawData_ent_z_ac[1:*]
+    rawData_exit_x_ac =  rawData_exit_x_ac[1:*]
+    rawData_exit_y_ac =  rawData_exit_y_ac[1:*]
+    rawData_exit_z_ac = rawData_exit_z_ac[1:*]
+    rawData_part_id_ac = rawData_part_id_ac[1:*]
+    rawData_trk_id_ac = rawData_trk_id_ac[1:*]
+    rawData_child_id_ac = rawData_child_id_ac[1:*]
+    rawData_proc_id_ac = rawData_proc_id_ac[1:*]
+  endif
 
   L0TRACKER_Glob_event_id = L0TRACKER_Glob_event_id[1:*]
   L0TRACKER_Glob_vol_id = L0TRACKER_Glob_vol_id[1:*]
@@ -871,7 +1088,7 @@ endif else begin
   ; - c12 = proc id
 
   for r=0l, n_elements(aa_fake_event_id)-1 do begin
-    printf, lun, aa_fake_event_id(r), aa_fake_theta_in(r), aa_fake_phi_in(r), aa_fake_ene_in(r), aa_fake_plane_id(r), aa_fake_zpos(r), aa_fake_si_id(r), aa_fake_pos(r), aa_fake_edep(r), aa_fake_strip_number(r), aa_fake_child_id(r), aa_fake_proc_id(r), format='(I5,I5,I5,I7,I5,F10.5,I5,F10.5,F10.5,I5,I5,I5)'
+    printf, lun, aa_fake_event_id(r), aa_fake_theta_in(r), aa_fake_phi_in(r), aa_fake_ene_in(r), aa_fake_plane_id(r), aa_fake_zpos(r), aa_fake_si_id(r), aa_fake_pos(r), aa_fake_edep(r), aa_fake_strip_number(r), aa_fake_child_id(r), aa_fake_proc_id(r), format='(I7,I7,I7,I7,I7,F20.7,I7,F20.7,F20.7,I7,I7,I7)'
   endfor
 
   Free_lun, lun
@@ -881,28 +1098,55 @@ endelse
 
 if (cal_flag EQ 1) then begin
   ; G4.CAL.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
-  calInput_event_id_tot_cal = calInput_event_id_tot_cal[1:*]
+  calInput_event_id_tot = calInput_event_id_tot[1:*]
   calInput_bar_id_tot = calInput_bar_id_tot[1:*]
   calInput_bar_ene_tot = calInput_bar_ene_tot[1:*]
   calInput_pair_flag_tot = calInput_pair_flag_tot[1:*]
+
+  ; G4.CAL.COMPTON.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+  calInput_event_id_tot_compton = calInput_event_id_tot_compton[1:*]
+  calInput_bar_id_tot_compton = calInput_bar_id_tot_compton[1:*]
+  calInput_bar_ene_tot_compton = calInput_bar_ene_tot_compton[1:*]
+  calInput_pair_flag_tot_compton = calInput_pair_flag_tot_compton[1:*]
+
+  ; G4.CAL.PAIR.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+  calInput_event_id_tot_pair = calInput_event_id_tot_pair[1:*]
+  calInput_bar_id_tot_pair = calInput_bar_id_tot_pair[1:*]
+  calInput_bar_ene_tot_pair = calInput_bar_ene_tot_pair[1:*]
+  calInput_pair_flag_tot_pair = calInput_pair_flag_tot_pair[1:*]
   
   ; SUM.CAL.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
-  calInputSum_event_id_tot_cal = calInputSum_event_id_tot_cal[1:*]
+  calInputSum_event_id_tot = calInputSum_event_id_tot[1:*]
   calInputSum_bar_ene_tot = calInputSum_bar_ene_tot[1:*]
 endif
 if (ac_flag EQ 1) then begin
   ; G4.AC.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
-  acInput_event_id_tot_ac = acInput_event_id_tot_ac[1:*]
+  acInput_event_id_tot = acInput_event_id_tot[1:*]
   acInput_AC_panel = acInput_AC_panel[1:*]
   acInput_AC_subpanel = acInput_AC_subpanel[1:*]
-  acInput_energy_dep_tot_ac = acInput_energy_dep_tot_ac[1:*]
+  acInput_energy_dep_tot = acInput_energy_dep_tot[1:*]
   acInput_pair_flag_tot = acInput_pair_flag_tot[1:*]
+
+  ; G4.AC.COMPTON.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+  acInput_event_id_tot_compton = acInput_event_id_tot_compton[1:*]
+  acInput_AC_panel_compton = acInput_AC_panel_compton[1:*]
+  acInput_AC_subpanel_compton = acInput_AC_subpanel_compton[1:*]
+  acInput_energy_dep_tot_compton = acInput_energy_dep_tot_compton[1:*]
+  acInput_pair_flag_tot_compton = acInput_pair_flag_tot_compton[1:*]
+
+  ; G4.AC.pair.eASTROGAM<version>.<phys>List.<strip>.<point>.<n_in>ph.<energy>MeV.<theta>.<phi>.all.fits
+  acInput_event_id_tot_pair = acInput_event_id_tot_pair[1:*]
+  acInput_AC_panel_pair = acInput_AC_panel_pair[1:*]
+  acInput_AC_subpanel_pair = acInput_AC_subpanel_pair[1:*]
+  acInput_energy_dep_tot_pair = acInput_energy_dep_tot_pair[1:*]
+  acInput_pair_flag_tot_pair = acInput_pair_flag_tot_pair[1:*]
+
 endif
 
 if (isStrip) then begin
 
-  CREATE_STRUCT, rawData, 'rawData', ['EVT_ID', 'TRAY_ID', 'PLANE_ID', 'STRIP_ID_X', 'STRIP_ID_Y', 'E_DEP', 'X_ENT', 'Y_ENT', 'Z_ENT', 'X_EXIT', 'Y_EXIT', 'Z_EXIT', 'PART_ID', 'CHILD_ID', 'PROC_ID'], $
-    'I,I,I,I,I,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,I,I,I', DIMEN = n_elements(rawData_event_id)
+  CREATE_STRUCT, rawData, 'rawData', ['EVT_ID', 'TRAY_ID', 'PLANE_ID', 'STRIP_ID_X', 'STRIP_ID_Y', 'E_DEP', 'X_ENT', 'Y_ENT', 'Z_ENT', 'X_EXIT', 'Y_EXIT', 'Z_EXIT', 'PART_ID', 'TRK_ID', 'CHILD_ID', 'PROC_ID'], $
+    'I,I,I,I,I,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,I,I,I,I', DIMEN = n_elements(rawData_event_id)
   rawData.EVT_ID = rawData_event_id
   rawData.TRAY_ID = rawData_tray_id
   rawData.PLANE_ID = rawData_plane_id
@@ -916,6 +1160,7 @@ if (isStrip) then begin
   rawData.Y_EXIT = rawData_exit_y
   rawData.Z_EXIT = rawData_exit_z
   rawData.PART_ID = rawData_part_id
+  rawData.TRK_ID = rawData_trk_id
   rawData.CHILD_ID = rawData_child_id
   rawData.PROC_ID = rawData_proc_id
 
@@ -928,7 +1173,7 @@ if (isStrip) then begin
     'Position unit = cm', $
     'Energy unit = keV']
 
-  MWRFITS, rawData, filepath+'G4.RAW.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'all.fits', hdr_rawData, /create
+  MWRFITS, rawData, filepath+'G4.RAW.TRACKER.'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'fits', hdr_rawData, /create
 
   CREATE_STRUCT, L0TRACKER, 'TRACKERL0', ['EVT_ID', 'VOLUME_ID', 'MOTHER_ID', 'TRAY_ID','PLANE_ID','TRK_FLAG', 'STRIP_ID', 'POS', 'ZPOS','E_DEP','PAIR_FLAG'], 'J,J,J,I,I,I,J,F20.5,F20.5,F20.5,I', DIMEN = N_ELEMENTS(L0TRACKER_Glob_event_id)
   L0TRACKER.EVT_ID = L0TRACKER_Glob_event_id
@@ -978,57 +1223,199 @@ if (isStrip) then begin
 
 endif
 if (cal_flag EQ 1) then begin
-  CREATE_STRUCT, calInput, 'input_cal_dhsim', ['EVT_ID','BAR_ID', 'BAR_ENERGY', 'PAIR_FLAG'], $
-    'I,I,F20.15,I', DIMEN = n_elements(calInput_event_id_tot_cal)
-  calInput.EVT_ID = calInput_event_id_tot_cal
-  calInput.BAR_ID = calInput_bar_id_tot
-  calInput.BAR_ENERGY = calInput_bar_ene_tot
-  calInput.PAIR_FLAG = calInput_pair_flag_tot
+  
+  if (n_elements(rawData_event_id_cal) GT 0) then begin
+    CREATE_STRUCT, rawData_cal, 'rawData_cal', ['EVT_ID', 'VOL_ID', 'MOTH_ID', 'E_DEP', 'X_ENT', 'Y_ENT', 'Z_ENT', 'X_EXIT', 'Y_EXIT', 'Z_EXIT', 'PART_ID', 'TRK_ID', 'CHILD_ID', 'PROC_ID'], $
+      'I,I,I,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,I,I,I,I', DIMEN = n_elements(rawData_event_id_cal)
+    rawData_cal.EVT_ID = rawData_event_id_cal
+    rawData_cal.VOL_ID = rawData_vol_id_cal
+    rawData_cal.MOTH_ID = rawData_moth_id_cal
+    rawData_cal.E_DEP = rawData_energy_dep_cal
+    rawData_cal.X_ENT = rawData_ent_x_cal
+    rawData_cal.Y_ENT = rawData_ent_y_cal
+    rawData_cal.Z_ENT = rawData_ent_z_cal
+    rawData_cal.X_EXIT = rawData_exit_x_cal
+    rawData_cal.Y_EXIT = rawData_exit_y_cal
+    rawData_cal.Z_EXIT = rawData_exit_z_cal
+    rawData_cal.PART_ID = rawData_part_id_cal
+    rawData_cal.TRK_ID = rawData_trk_id_cal
+    rawData_cal.CHILD_ID = rawData_child_id_cal
+    rawData_cal.PROC_ID = rawData_proc_id_cal
+  
+  
+    hdr_rawData_cal = ['COMMENT  eASTROGAM '+astrogam_version+' Geant4 simulation', $
+      'N_in     = '+strtrim(string(N_in),1), $
+      'Energy     = '+ene_type, $
+      'Theta     = '+strtrim(string(theta_type),1), $
+      'Phi     = '+strtrim(string(phi_type),1), $
+      'Position unit = cm', $
+      'Energy unit = keV']
+  
+    MWRFITS, rawData_cal, filepath+'G4.RAW.CAL.'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'fits', hdr_rawData_cal, /create
 
+    if (n_elements(calInput_event_id_tot) GT 0) then begin
+      CREATE_STRUCT, calInput, 'input_cal_dhsim', ['EVT_ID','BAR_ID', 'BAR_ENERGY', 'PAIR_FLAG'], $
+        'I,I,F20.15,I', DIMEN = n_elements(calInput_event_id_tot)
+      calInput.EVT_ID = calInput_event_id_tot
+      calInput.BAR_ID = calInput_bar_id_tot
+      calInput.BAR_ENERGY = calInput_bar_ene_tot
+      calInput.PAIR_FLAG = calInput_pair_flag_tot
+    
+    
+      hdr_calInput = ['COMMENT  eASTROGAM V2.0 Geant4 simulation', $
+        'N_in     = '+strtrim(string(N_in),1), $
+        'Energy     = '+ene_type, $
+        'Theta     = '+strtrim(string(theta_type),1), $
+        'Phi     = '+strtrim(string(phi_type),1), $
+        'Energy unit = GeV']
+    
+      MWRFITS, calInput, filepath+'G4.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'fits', hdr_calInput, /create
+    endif
+    
+    if (n_elements(calInput_event_id_tot_compton) GT 0) then begin
+      CREATE_STRUCT, calInput_compton, 'input_cal_dhsim_compton', ['EVT_ID','BAR_ID', 'BAR_ENERGY', 'PAIR_FLAG'], $
+        'I,I,F20.15,I', DIMEN = n_elements(calInput_event_id_tot_compton)
+      calInput_compton.EVT_ID = calInput_event_id_tot_compton
+      calInput_compton.BAR_ID = calInput_bar_id_tot_compton
+      calInput_compton.BAR_ENERGY = calInput_bar_ene_tot_compton
+      calInput_compton.PAIR_FLAG = calInput_pair_flag_tot_compton
+    
+      hdr_calInput_compton = ['COMMENT  eASTROGAM V2.0 Geant4 simulation', $
+        'N_in     = '+strtrim(string(N_in),1), $
+        'Energy     = '+ene_type, $
+        'Theta     = '+strtrim(string(theta_type),1), $
+        'Phi     = '+strtrim(string(phi_type),1), $
+        'Energy unit = GeV']
+    
+      MWRFITS, calInput_compton, filepath+'G4.CAL.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'fits', hdr_calInput, /create
+    endif
 
-  hdr_calInput = ['COMMENT  eASTROGAM V2.0 Geant4 simulation', $
-    'N_in     = '+strtrim(string(N_in),1), $
-    'Energy     = '+ene_type, $
-    'Theta     = '+strtrim(string(theta_type),1), $
-    'Phi     = '+strtrim(string(phi_type),1), $
-    'Energy unit = GeV']
+    if (n_elements(calInput_event_id_tot_pair) GT 0) then begin
+      CREATE_STRUCT, calInput_pair, 'input_cal_dhsim_pair', ['EVT_ID','BAR_ID', 'BAR_ENERGY', 'PAIR_FLAG'], $
+        'I,I,F20.15,I', DIMEN = n_elements(calInput_event_id_tot_pair)
+      calInput_pair.EVT_ID = calInput_event_id_tot_pair
+      calInput_pair.BAR_ID = calInput_bar_id_tot_pair
+      calInput_pair.BAR_ENERGY = calInput_bar_ene_tot_pair
+      calInput_pair.PAIR_FLAG = calInput_pair_flag_tot_pair
 
-  MWRFITS, calInput, filepath+'G4.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'all.fits', hdr_calInput, /create
+      hdr_calInput_pair = ['COMMENT  eASTROGAM V2.0 Geant4 simulation', $
+        'N_in     = '+strtrim(string(N_in),1), $
+        'Energy     = '+ene_type, $
+        'Theta     = '+strtrim(string(theta_type),1), $
+        'Phi     = '+strtrim(string(phi_type),1), $
+        'Energy unit = GeV']
 
-  CREATE_STRUCT, calInputSum, 'input_cal', ['EVT_ID','BAR_ENERGY'], $
-    'I,F20.15', DIMEN = n_elements(calInputSum_event_id_tot_cal)
-  calInputSum.EVT_ID = calInputSum_event_id_tot_cal
-  calInputSum.BAR_ENERGY = calInputSum_bar_ene_tot
-
-
-  hdr_calInputSum = ['COMMENT  eASTROGAM V2.0 Geant4 simulation', $
-    'N_in     = '+strtrim(string(N_in),1), $
-    'Energy     = '+ene_type, $
-    'Theta     = '+strtrim(string(theta_type),1), $
-    'Phi     = '+strtrim(string(phi_type),1), $
-    'Energy unit = GeV']
-
-  MWRFITS, calInputSum, filepath+'SUM.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'all.fits', hdr_calInputSum, /create
-
+      MWRFITS, calInput_pair, filepath+'G4.CAL.PAIR.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'fits', hdr_calInput, /create
+    endif    
+    
+    if (n_elements(calInputSum_event_id_tot) GT 0) then begin    
+      CREATE_STRUCT, calInputSum, 'input_cal', ['EVT_ID','BAR_ENERGY'], $
+        'I,F20.15', DIMEN = n_elements(calInputSum_event_id_tot)
+      calInputSum.EVT_ID = calInputSum_event_id_tot
+      calInputSum.BAR_ENERGY = calInputSum_bar_ene_tot
+    
+    
+      hdr_calInputSum = ['COMMENT  eASTROGAM V2.0 Geant4 simulation', $
+        'N_in     = '+strtrim(string(N_in),1), $
+        'Energy     = '+ene_type, $
+        'Theta     = '+strtrim(string(theta_type),1), $
+        'Phi     = '+strtrim(string(phi_type),1), $
+        'Energy unit = GeV']
+    
+      MWRFITS, calInputSum, filepath+'SUM.CAL.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'fits', hdr_calInputSum, /create
+    endif
+  endif
 endif
 if (ac_flag EQ 1) then begin
-  CREATE_STRUCT, acInput, 'input_ac_dhsim', ['EVT_ID', 'AC_PANEL', 'AC_SUBPANEL', 'E_DEP', 'PAIR_FLAG'], $
-    'I,A,I,F20.15,I', DIMEN = n_elements(acInput_event_id_tot_ac)
-  acInput.EVT_ID = acInput_event_id_tot_ac
-  acInput.AC_PANEL = acInput_AC_panel
-  acInput.AC_SUBPANEL = acInput_AC_subpanel
-  acInput.E_DEP = acInput_energy_dep_tot_ac
-  acInput.PAIR_FLAG = acInput_pair_flag_tot
- 
+  if (n_elements(rawData_event_id_ac) GT 0) then begin
+    CREATE_STRUCT, rawData_ac, 'rawData_ac', ['EVT_ID', 'VOL_ID', 'MOTH_ID', 'E_DEP', 'X_ENT', 'Y_ENT', 'Z_ENT', 'X_EXIT', 'Y_EXIT', 'Z_EXIT', 'PART_ID', 'TRK_ID', 'CHILD_ID', 'PROC_ID'], $
+      'I,I,I,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,F20.5,I,I,I,I', DIMEN = n_elements(rawData_event_id_ac)
+    rawData_ac.EVT_ID = rawData_event_id_ac
+    rawData_ac.VOL_ID = rawData_vol_id_ac
+    rawData_ac.MOTH_ID = rawData_moth_id_ac
+    rawData_ac.E_DEP = rawData_energy_dep_ac
+    rawData_ac.X_ENT = rawData_ent_x_ac
+    rawData_ac.Y_ENT = rawData_ent_y_ac
+    rawData_ac.Z_ENT = rawData_ent_z_ac
+    rawData_ac.X_EXIT = rawData_exit_x_ac
+    rawData_ac.Y_EXIT = rawData_exit_y_ac
+    rawData_ac.Z_EXIT = rawData_exit_z_ac
+    rawData_ac.PART_ID = rawData_part_id_ac
+    rawData_ac.TRK_ID = rawData_trk_id_ac
+    rawData_ac.CHILD_ID = rawData_child_id_ac
+    rawData_ac.PROC_ID = rawData_proc_id_ac
+  
+  
+    hdr_rawData_ac = ['COMMENT  eASTROGAM '+astrogam_version+' Geant4 simulation', $
+      'N_in     = '+strtrim(string(N_in),1), $
+      'Energy     = '+ene_type, $
+      'Theta     = '+strtrim(string(theta_type),1), $
+      'Phi     = '+strtrim(string(phi_type),1), $
+      'Position unit = cm', $
+      'Energy unit = keV']
+  
+    MWRFITS, rawData_ac, filepath+'G4.RAW.CAL.'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'fits', hdr_rawData_ac, /create
+  
+    if (n_elements(acInput_event_id_tot) GT 0) then begin
+      CREATE_STRUCT, acInput, 'input_ac_dhsim', ['EVT_ID', 'AC_PANEL', 'AC_SUBPANEL', 'E_DEP', 'PAIR_FLAG'], $
+        'I,A,I,F20.15,I', DIMEN = n_elements(acInput_event_id_tot)
+      acInput.EVT_ID = acInput_event_id_tot
+      acInput.AC_PANEL = acInput_AC_panel
+      acInput.AC_SUBPANEL = acInput_AC_subpanel
+      acInput.E_DEP = acInput_energy_dep_tot
+      acInput.PAIR_FLAG = acInput_pair_flag_tot
+     
+    
+      hdr_acInput = ['COMMENT  eASTROGAM V'+astrogam_version+' Geant4 simulation', $
+        'N_in     = '+strtrim(string(N_in),1), $
+        'Energy     = '+ene_type, $
+        'Theta     = '+strtrim(string(theta_type),1), $
+        'Phi     = '+strtrim(string(phi_type),1), $
+        'Energy unit = GeV']
+    
+      MWRFITS, acInput, filepath+'G4.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'fits', hdr_acInput, /create
+    endif
 
-  hdr_acInput = ['COMMENT  eASTROGAM V'+astrogam_version+' Geant4 simulation', $
-    'N_in     = '+strtrim(string(N_in),1), $
-    'Energy     = '+ene_type, $
-    'Theta     = '+strtrim(string(theta_type),1), $
-    'Phi     = '+strtrim(string(phi_type),1), $
-    'Energy unit = GeV']
+    if (n_elements(acInput_event_id_tot_compton) GT 0) then begin    
+      CREATE_STRUCT, acInput_compton, 'input_ac_dhsim_compton', ['EVT_ID', 'AC_PANEL', 'AC_SUBPANEL', 'E_DEP', 'PAIR_FLAG'], $
+        'I,A,I,F20.15,I', DIMEN = n_elements(acInput_event_id_tot_compton)
+      acInput_compton.EVT_ID = acInput_event_id_tot_compton
+      acInput_compton.AC_PANEL = acInput_AC_panel_compton
+      acInput_compton.AC_SUBPANEL = acInput_AC_subpanel_compton
+      acInput_compton.E_DEP = acInput_energy_dep_tot_compton
+      acInput_compton.PAIR_FLAG = acInput_pair_flag_tot_compton
+    
+    
+      hdr_acInput_compton = ['COMMENT  eASTROGAM V'+astrogam_version+' Geant4 simulation', $
+        'N_in     = '+strtrim(string(N_in),1), $
+        'Energy     = '+ene_type, $
+        'Theta     = '+strtrim(string(theta_type),1), $
+        'Phi     = '+strtrim(string(phi_type),1), $
+        'Energy unit = GeV']
+    
+      MWRFITS, acInput_compton, filepath+'G4.AC.COMPTON.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'fits', hdr_acInput_compton, /create
+    endif
 
-  MWRFITS, acInput, filepath+'G4.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'all.fits', hdr_acInput, /create
+    if (n_elements(acInput_event_id_tot_pair) GT 0) then begin    
+      CREATE_STRUCT, acInput_pair, 'input_ac_dhsim_pair', ['EVT_ID', 'AC_PANEL', 'AC_SUBPANEL', 'E_DEP', 'PAIR_FLAG'], $
+        'I,A,I,F20.15,I', DIMEN = n_elements(acInput_event_id_tot_pair)
+      acInput_pair.EVT_ID = acInput_event_id_tot_pair
+      acInput_pair.AC_PANEL = acInput_AC_panel_pair
+      acInput_pair.AC_SUBPANEL = acInput_AC_subpanel_pair
+      acInput_pair.E_DEP = acInput_energy_dep_tot_pair
+      acInput_pair.PAIR_FLAG = acInput_pair_flag_tot_pair
+    
+    
+      hdr_acInput_pair = ['COMMENT  eASTROGAM V'+astrogam_version+' Geant4 simulation', $
+        'N_in     = '+strtrim(string(N_in),1), $
+        'Energy     = '+ene_type, $
+        'Theta     = '+strtrim(string(theta_type),1), $
+        'Phi     = '+strtrim(string(phi_type),1), $
+        'Energy unit = GeV']
+    
+      MWRFITS, acInput_pair, filepath+'G4.AC.PAIR.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'fits', hdr_acInput_pair, /create
+    endif
+  endif
 endif
 
 
