@@ -1072,7 +1072,7 @@ endif else begin
   aa_fake_proc_id = aa_fake_proc_id[1:*]
 
 
-  openw,lun,filepath+'AA_FAKE_eASTROGAM'+astrogam_version+'_'+py_name+'_'+sim_name+'_'+stripname+'_'+sname+'_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'_'+pol_string+'all.dat',/get_lun
+  openw,lun,filepath+'AA_FAKE_eASTROGAM'+astrogam_version+'_'+py_name+'_'+sim_name+'_'+stripname+'_'+sname+'_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'_'+pol_string+'dat',/get_lun
   ; ASCII Columns:
   ; - c1 = event ID
   ; - c2 = theta input
@@ -1197,7 +1197,7 @@ if (isStrip) then begin
     'ENERGY UNIT      = KEV']
 
 
-  MWRFITS, L0TRACKER, filepath+'L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+STRMID(STRTRIM(STRING(N_IN),1),0,10)+part_type+'.'+ene_type+'MeV.'+STRMID(STRTRIM(STRING(THETA_TYPE),1),0,10)+'.'+STRMID(STRTRIM(STRING(PHI_TYPE),1),0,10)+'.'+pol_string+'all.fits', HDR_L0, /CREATE
+  MWRFITS, L0TRACKER, filepath+'L0.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+STRMID(STRTRIM(STRING(N_IN),1),0,10)+part_type+'.'+ene_type+'MeV.'+STRMID(STRTRIM(STRING(THETA_TYPE),1),0,10)+'.'+STRMID(STRTRIM(STRING(PHI_TYPE),1),0,10)+'.'+pol_string+'fits', HDR_L0, /CREATE
 
 
   CREATE_STRUCT, L05TRACKER, 'TRACKERL05', ['EVT_ID', 'TRAY_ID','PLANE_ID','TRK_FLAG', 'POS', 'ZPOS','E_DEP','PAIR_FLAG'], 'J,I,I,I,F20.5,F20.5,F20.5,I', DIMEN = N_ELEMENTS(L05TRACKER_Glob_event_id_cluster)
@@ -1219,7 +1219,7 @@ if (isStrip) then begin
     'ENERGY UNIT      = KEV']
 
 
-  MWRFITS, L05TRACKER, filepath+'L0.5.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+STRMID(STRTRIM(STRING(N_IN),1),0,10)+part_type+'.'+ene_type+'MeV.'+STRMID(STRTRIM(STRING(THETA_TYPE),1),0,10)+'.'+STRMID(STRTRIM(STRING(PHI_TYPE),1),0,10)+'.'+pol_string+'all.fits', HDR_L05, /CREATE
+  MWRFITS, L05TRACKER, filepath+'L0.5.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+STRMID(STRTRIM(STRING(N_IN),1),0,10)+part_type+'.'+ene_type+'MeV.'+STRMID(STRTRIM(STRING(THETA_TYPE),1),0,10)+'.'+STRMID(STRTRIM(STRING(PHI_TYPE),1),0,10)+'.'+pol_string+'fits', HDR_L05, /CREATE
 
 endif
 if (cal_flag EQ 1) then begin
