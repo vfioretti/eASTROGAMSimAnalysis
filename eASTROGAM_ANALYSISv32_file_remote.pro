@@ -311,7 +311,7 @@ print, 'eASTROGAM simulation path: ', filepath
 outdir = './eASTROGAM'+astrogam_version+sdir+'/theta'+strtrim(string(theta_type),1)+'/'+stripDir+py_dir+'/'+sim_name+'/'+ene_type+'MeV/'+strtrim(string(N_in),1)+part_type+dir_cal+dir_passive+'/'+strtrim(string(energy_thresh),1)+'keV'
 print, 'eASTROGAM outdir path: ', outdir
 
-CheckOutDir = DIR_EXIST( outdir)
+CheckOutDir = dir_exist( outdir)
 if (CheckOutDir EQ 0) then spawn,'mkdir -p ./eASTROGAM'+astrogam_version+sdir+'/theta'+strtrim(string(theta_type),1)+'/'+stripDir+py_dir+'/'+sim_name+'/'+ene_type+'MeV/'+strtrim(string(N_in),1)+part_type+dir_cal+dir_passive+'/'+strtrim(string(energy_thresh),1)+'keV'
 
 
