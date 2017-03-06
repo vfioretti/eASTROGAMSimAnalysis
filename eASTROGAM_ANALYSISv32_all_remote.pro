@@ -1173,7 +1173,7 @@ if (isStrip) then begin
     'Position unit = cm', $
     'Energy unit = keV']
 
-  MWRFITS, rawData, filepath+'G4.RAW.TRACKER.'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'fits', hdr_rawData, /create
+  MWRFITS, rawData, filepath+'G4.RAW.TRACKER.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+'fits', hdr_rawData, /create
 
   CREATE_STRUCT, L0TRACKER, 'TRACKERL0', ['EVT_ID', 'VOLUME_ID', 'MOTHER_ID', 'TRAY_ID','PLANE_ID','TRK_FLAG', 'STRIP_ID', 'POS', 'ZPOS','E_DEP','PAIR_FLAG'], 'J,J,J,I,I,I,J,F20.5,F20.5,F20.5,I', DIMEN = N_ELEMENTS(L0TRACKER_Glob_event_id)
   L0TRACKER.EVT_ID = L0TRACKER_Glob_event_id
