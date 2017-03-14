@@ -523,7 +523,7 @@ for ifile=0, n_files-1 do begin
   if (isStrip) then begin
 
     filenamedat_aa_strip = filepath+sim_tag+'_STRIP_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.dat'
-    old_readcol, filenamedat_aa_strip, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, COUNT=nrows_strip, format='(l,l,l,l,l,f,l,l,f,f,l)'
+    readcol, filenamedat_aa_strip, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, COUNT=nrows_strip, format='(l,l,l,l,l,f,l,l,f,f,l)'
     print, filenamedat_aa_strip
    
     if (nrows_strip GT 0) then begin
@@ -541,7 +541,7 @@ for ifile=0, n_files-1 do begin
     endif
 
     filenamedat_aa_kalman = filepath+sim_tag+'_CLUSTER_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.dat'
-    old_readcol, filenamedat_aa_kalman, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, COUNT=nrows_cluster, format='(l,l,l,l,l,f,l,f,f,l,l)'
+    readcol, filenamedat_aa_kalman, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, COUNT=nrows_cluster, format='(l,l,l,l,l,f,l,f,f,l,l)'
     print, filenamedat_aa_kalman
 
     if (nrows_cluster GT 0) then begin    
@@ -559,7 +559,7 @@ for ifile=0, n_files-1 do begin
     endif
 
     filenamedat_aa_kalman_pair = filepath+sim_tag+'_CLUSTER_PAIR_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.dat'
-    old_readcol, filenamedat_aa_kalman_pair, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, COUNT=nrows_cluster_pair, format='(l,l,l,l,l,f,l,f,f,l,l)'
+    readcol, filenamedat_aa_kalman_pair, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, COUNT=nrows_cluster_pair, format='(l,l,l,l,l,f,l,f,f,l,l)'
     print, filenamedat_aa_kalman_pair
    
     if (nrows_cluster_pair GT 0) then begin
@@ -577,7 +577,7 @@ for ifile=0, n_files-1 do begin
     endif
  
     filenamedat_aa_kalman_compton = filepath+sim_tag+'_CLUSTER_COMPTON_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+sname+'_'+ene_dis+'_'+ang_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.dat'
-    old_readcol, filenamedat_aa_kalman_compton, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, COUNT=nrows_cluster_compton, format='(l,l,l,l,l,f,l,f,f,l,l)'
+    readcol, filenamedat_aa_kalman_compton, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, COUNT=nrows_cluster_compton, format='(l,l,l,l,l,f,l,f,f,l,l)'
     print, filenamedat_aa_kalman_compton
 
     if (nrows_cluster_compton GT 0) then begin    
@@ -707,7 +707,7 @@ for ifile=0, n_files-1 do begin
 
   endif else begin
     filenamedat_aa_fake = filepath+'AA_FAKE_eASTROGAM'+astrogam_version+'_'+py_name+'_'+sim_name+'_'+stripname+'_'+sname+'_'+strmid(strtrim(string(N_in),1),0,10)+part_type+'_'+ene_type+'MeV_'+strmid(strtrim(string(theta_type),1),0,10)+'_'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.dat'
-    old_readcol, filenamedat_aa_fake, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, format='(l,l,l,l,l,f,l,f,f,l,l,l)'
+    readcol, filenamedat_aa_fake, c1, c2, c3, c4, c5, c6, c7, c8, c9, c10, c11, c12, format='(l,l,l,l,l,f,l,f,f,l,l,l)'
     print, filenamedat_aa_fake
 
     aa_fake_event_id = [aa_fake_event_id, c1]
