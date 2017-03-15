@@ -311,7 +311,7 @@ print, 'eASTROGAM simulation path: ', filepath
 outdir = './eASTROGAM'+astrogam_version+sdir+'/theta'+strtrim(string(theta_type),1)+'/'+stripDir+py_dir+'/'+sim_name+'/'+ene_type+'MeV/'+strtrim(string(N_in),1)+part_type+dir_cal+dir_passive+'/'+strtrim(string(energy_thresh),1)+'keV'
 print, 'eASTROGAM outdir path: ', outdir
 
-CheckOutDir = dir_exist( outdir)
+CheckOutDir = dir_exist(outdir)
 if (CheckOutDir EQ 0) then spawn,'mkdir -p ./eASTROGAM'+astrogam_version+sdir+'/theta'+strtrim(string(theta_type),1)+'/'+stripDir+py_dir+'/'+sim_name+'/'+ene_type+'MeV/'+strtrim(string(N_in),1)+part_type+dir_cal+dir_passive+'/'+strtrim(string(energy_thresh),1)+'keV'
 
 
@@ -2783,7 +2783,7 @@ for ifile=0, n_fits-1 do begin
   
       MWRFITS, acInput_flag, outdir+'/G4.AC.eASTROGAM'+astrogam_version+'.'+py_name+'.'+sim_name+'.'+stripname+'.'+sname+'.'+strmid(strtrim(string(N_in),1),0,10)+part_type+'.'+ene_type+'MeV.'+strmid(strtrim(string(theta_type),1),0,10)+'.'+strmid(strtrim(string(phi_type),1),0,10)+'.'+pol_string+strtrim(string(ifile),1)+'.fits', hdr_acInput_flag, /create
       
-      where_compton_ac = where((pair_flag_tot_cal EQ 2) or (pair_flag_tot_cal EQ 4))
+      where_compton_ac = where((pair_flag_tot_ac EQ 2) or (pair_flag_tot_ac EQ 4))
       if (where_compton_ac(0) NE -1) then begin
         event_id_tot_ac_compton = event_id_tot_ac[where_compton_ac]
         AC_panel_compton = AC_panel[where_compton_ac]
@@ -2812,7 +2812,7 @@ for ifile=0, n_fits-1 do begin
         print, 'No Compton AC events found'
       endelse
       
-      where_pair_ac = where((pair_flag_tot_cal EQ 1) or (pair_flag_tot_cal EQ 3))
+      where_pair_ac = where((pair_flag_tot_ac EQ 1) or (pair_flag_tot_ac EQ 3))
       if (where_pair_ac(0) NE -1) then begin
         event_id_tot_ac_pair = event_id_tot_ac[where_pair_ac]
         AC_panel_pair = AC_panel[where_pair_ac]
